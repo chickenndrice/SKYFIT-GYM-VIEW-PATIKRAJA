@@ -130,7 +130,7 @@
   <div class="facility-extras reveal">
     <div class="facility-extras-label">Fasilitas Pendukung</div>
     <p class="facility-extras-text">
-      Including: <strong>High Speed WiFi</strong> &nbsp;·&nbsp; <strong>Free Air Minum</strong> &nbsp;·&nbsp; <strong>Loker</strong> &nbsp;·&nbsp; <strong>Mushola</strong> &nbsp;·&nbsp; <strong>Kamar Mandi Terpisah</strong> &nbsp;·&nbsp; <strong>Parkir Gratis</strong>
+      Including: <strong>High Speed WiFi</strong> &nbsp;·&nbsp; <strong>Free Air Minum</strong> &nbsp;·&nbsp; <strong>Loker</strong> &nbsp;·&nbsp; <strong>Mushola</strong> &nbsp;·&nbsp; <strong>Kamar Mandi Terpisah</strong> &nbsp;·&nbsp; <strong>Parkir Gratis</strong> &nbsp;·&nbsp; <strong>Google Pixel &amp; Tripod</strong> <span style="font-size:12px;color:rgba(245,245,245,0.3);">(tersedia di kasir untuk kebutuhan foto/konten member)</span>
     </p>
   </div>
 </section>
@@ -156,43 +156,57 @@
   <div class="section-tag reveal">Tim Trainer</div>
   <h2 class="section-title reveal reveal-delay-1">EXPERT<br><span class="outline">COACHES</span></h2>
   <div class="trainers-grid">
+    <!-- COACH BASUKI -->
     <div class="trainer-card reveal reveal-delay-1">
       <div class="trainer-photo">
         <div class="trainer-photo-placeholder"><div class="trainer-initial">B</div></div>
         <div class="trainer-badge">Coach</div>
+        <button class="trainer-video-btn" onclick="openVideoModal('basuki')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Tonton Perkenalan
+        </button>
       </div>
       <div class="trainer-info">
         <div class="trainer-name">Basuki</div>
-        <div class="trainer-role">Personal Trainer · Weight Lifting</div>
+        <div class="trainer-role">Personal Trainer · Body Building</div>
         <div class="trainer-specs">
-          <div class="trainer-spec"><span class="spec-icon">◆</span>Weight Lifting & Body Building Specialist</div>
-          <div class="trainer-spec"><span class="spec-icon">◆</span>Personalized Training Program</div>
-          <div class="trainer-spec"><span class="spec-icon">◆</span>5 Tahun Pengalaman sebagai Personal Trainer</div>
+          <div class="trainer-spec"><span class="spec-icon">◆</span>Body Building &amp; Contest Specialist</div>
+          <div class="trainer-spec"><span class="spec-icon">◆</span>Bulking &amp; Fat Loss Program</div>
+          <div class="trainer-spec"><span class="spec-icon">◆</span>Posing Coach</div>
+          <div class="trainer-spec"><span class="spec-icon">◆</span>5+ Tahun Pengalaman sebagai Personal Trainer</div>
         </div>
         <div class="trainer-achievements">
-          <span class="achievement-pill">Ragavaganza 2024 Champion</span>
-          <span class="achievement-pill">5 Years Exp</span>
-          <span class="achievement-pill">Bodybuilding</span>
+          <span class="achievement-pill">Ragavaganza National 1st 2024</span>
+          <span class="achievement-pill">5+ Years Exp</span>
+          <span class="achievement-pill">Posing Coach</span>
+          <span class="achievement-pill">Fat Loss</span>
         </div>
       </div>
     </div>
+    <!-- COACH MARIO -->
     <div class="trainer-card reveal reveal-delay-2">
       <div class="trainer-photo">
         <div class="trainer-photo-placeholder"><div class="trainer-initial">M</div></div>
         <div class="trainer-badge">Coach</div>
+        <button class="trainer-video-btn" onclick="openVideoModal('mario')">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Tonton Perkenalan
+        </button>
       </div>
       <div class="trainer-info">
         <div class="trainer-name">Mario</div>
         <div class="trainer-role">Senior Trainer · Functional Training</div>
         <div class="trainer-specs">
-          <div class="trainer-spec"><span class="spec-icon">◆</span>Complex & Functional Training Specialist</div>
-          <div class="trainer-spec"><span class="spec-icon">◆</span>Body Recomposition & Wellness</div>
+          <div class="trainer-spec"><span class="spec-icon">◆</span>Complex &amp; Functional Training Specialist</div>
+          <div class="trainer-spec"><span class="spec-icon">◆</span>Body Recomposition Specialist</div>
+          <div class="trainer-spec"><span class="spec-icon">◆</span>Wellness, Spiritual &amp; Meditation</div>
           <div class="trainer-spec"><span class="spec-icon">◆</span>10+ Tahun Pengalaman · 500+ Klien</div>
         </div>
         <div class="trainer-achievements">
           <span class="achievement-pill">10+ Years Exp</span>
           <span class="achievement-pill">500+ Clients</span>
           <span class="achievement-pill">Functional</span>
+          <span class="achievement-pill">Wellness</span>
         </div>
       </div>
     </div>
@@ -229,6 +243,24 @@
       <div class="price-card reveal reveal-delay-4"><div class="price-type">Member 6 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 690k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 180.000</div></div>
       <div class="price-card reveal"><div class="price-type">Member 12 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 1.2jt</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 540.000</div></div>
       <div class="price-card reveal reveal-delay-1"><div class="price-type">Paket Couple</div><div class="price-amount"><span class="currency">Rp</span> 260k</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 30.000</div><div class="price-desc">Pria + Wanita</div></div>
+      <!-- VIP MEMBER -->
+      <div class="price-card vip reveal reveal-delay-2">
+        <div class="vip-header">
+          <div>
+            <div class="vip-badge-label">⭐ Member VIP</div>
+            <div class="price-amount"><span class="currency">Rp</span> 185k</div>
+            <div class="price-per">per orang / 1 bulan aktif</div>
+          </div>
+          <span class="featured-badge" style="position:relative;top:auto;right:auto;align-self:flex-start;">VIP</span>
+        </div>
+        <div class="vip-perks">
+          <div class="vip-perk"><div class="vip-perk-dot"></div>VIP Member Card</div>
+          <div class="vip-perk"><div class="vip-perk-dot"></div>All Access Gym &amp; Cardio</div>
+          <div class="vip-perk"><div class="vip-perk-dot"></div>Unlimited Kelas Reguler</div>
+          <div class="vip-perk"><div class="vip-perk-dot"></div>Free Handuk saat Latihan</div>
+        </div>
+        <div class="vip-note">* Unlimited kelas berlaku untuk semua kelas, kecuali Fit Kid &amp; Fit Elderly</div>
+      </div>
     </div>
   </div>
 
@@ -247,6 +279,24 @@
       <div class="price-card featured reveal reveal-delay-3"><div class="featured-badge">Best Deal</div><div class="price-type">Member 3 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 320k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 40.000</div></div>
       <div class="price-card reveal reveal-delay-4"><div class="price-type">Member 6 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 600k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 120.000</div></div>
       <div class="price-card reveal"><div class="price-type">Member 12 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 999k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 441.000</div></div>
+      <!-- VIP MEMBER PELAJAR -->
+      <div class="price-card vip reveal reveal-delay-1">
+        <div class="vip-header">
+          <div>
+            <div class="vip-badge-label">⭐ Member VIP</div>
+            <div class="price-amount"><span class="currency">Rp</span> 185k</div>
+            <div class="price-per">per orang / 1 bulan aktif</div>
+          </div>
+          <span class="featured-badge" style="position:relative;top:auto;right:auto;align-self:flex-start;">VIP</span>
+        </div>
+        <div class="vip-perks">
+          <div class="vip-perk"><div class="vip-perk-dot"></div>VIP Member Card</div>
+          <div class="vip-perk"><div class="vip-perk-dot"></div>All Access Gym &amp; Cardio</div>
+          <div class="vip-perk"><div class="vip-perk-dot"></div>Unlimited Kelas Reguler</div>
+          <div class="vip-perk"><div class="vip-perk-dot"></div>Free Handuk saat Latihan</div>
+        </div>
+        <div class="vip-note">* Unlimited kelas berlaku untuk semua kelas, kecuali Fit Kid &amp; Fit Elderly</div>
+      </div>
     </div>
   </div>
 
@@ -350,6 +400,19 @@
     <div class="footer-copy">© 2025 Skyfit Gym Patikraja. All rights reserved.</div>
   </footer>
 </section>
+
+<!-- VIDEO INTRO MODAL -->
+<div class="video-modal-backdrop" id="videoModal" onclick="closeVideoModalOnBackdrop(event)">
+  <div class="video-modal">
+    <div class="video-modal-header">
+      <div class="video-modal-title" id="videoModalTitle">Video Perkenalan</div>
+      <button class="video-modal-close" onclick="closeVideoModal()">✕</button>
+    </div>
+    <div id="videoModalBody">
+      <!-- Video element injected by JS based on which trainer -->
+    </div>
+  </div>
+</div>
 
 <script src="assets/js/main.js"></script>
 </body>

@@ -186,6 +186,78 @@
   .price-per { font-size: 12px; color: var(--muted); margin-top: 4px; }
   .price-savings { display: inline-block; margin-top: 12px; background: rgba(200,230,0,0.12); color: var(--lime); font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 4px 10px; border-radius: 40px; }
   .price-desc { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
+
+  /* VIP card */
+  .price-card.vip {
+    border-color: var(--lime); background: rgba(200,230,0,0.06);
+    grid-column: 1 / -1;
+  }
+  .price-card.vip::before { background: var(--lime); }
+  .vip-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .vip-badge-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--lime); margin-bottom: 4px; }
+  .vip-perks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .vip-perk {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: rgba(245,245,245,0.7);
+    background: rgba(200,230,0,0.07); border: 1px solid rgba(200,230,0,0.15);
+    padding: 6px 12px; border-radius: 4px;
+  }
+  .vip-perk-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--lime); flex-shrink: 0; }
+  .vip-note { font-size: 11px; color: var(--muted); margin-top: 12px; font-style: italic; }
+
+  /* ── VIDEO MODAL ── */
+  .video-modal-backdrop {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.92);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .video-modal-backdrop.open { opacity: 1; pointer-events: all; }
+  .video-modal {
+    width: 100%; max-width: 780px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s;
+  }
+  .video-modal-backdrop.open .video-modal { transform: translateY(0) scale(1); }
+  .video-modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+  }
+  .video-modal-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+  .video-modal-close {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--border); background: none; cursor: pointer;
+    color: var(--muted); font-size: 18px; display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .video-modal-close:hover { border-color: var(--lime); color: var(--lime); }
+  .video-modal video {
+    width: 100%; display: block;
+    background: #000; max-height: 70vh;
+  }
+  .video-modal-placeholder {
+    padding: 60px 24px; text-align: center;
+    background: var(--card2);
+  }
+  .video-modal-placeholder p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .video-modal-placeholder code { color: var(--lime); font-size: 12px; background: rgba(200,230,0,0.1); padding: 2px 8px; border-radius: 3px; }
+
+  /* Video play button on trainer photo */
+  .trainer-video-btn {
+    position: absolute; bottom: 20px; right: 20px;
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(8,8,8,0.7); border: 1px solid rgba(200,230,0,0.5);
+    color: var(--lime); padding: 8px 16px; border-radius: 40px;
+    font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s, border-color 0.2s;
+    backdrop-filter: blur(8px);
+  }
+  .trainer-video-btn:hover { background: var(--lime); color: var(--black); border-color: var(--lime); }
+  .trainer-video-btn svg { flex-shrink: 0; }
   .promo-banner { background: linear-gradient(135deg, rgba(200,230,0,0.12), rgba(200,230,0,0.04)); border: 1px solid rgba(200,230,0,0.3); border-radius: 8px; padding: 24px 28px; margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
   .promo-banner-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--lime); margin-bottom: 6px; }
   .promo-banner-title { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; text-transform: uppercase; }

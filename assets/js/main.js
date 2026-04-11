@@ -14,29 +14,20 @@
     setTimeout(() => el.classList.add('visible'), 200 + i * 150);
   });
 
-  // Photo swap (FIX #2)
-  // Swaps the inner HTML of a thumbnail with the main cell
+  // Photo swap
   function swapWithMain(thumbCell) {
     const mainCell = document.getElementById('mainCell');
-
-    // Clone content from both sides
     const mainPH  = mainCell.querySelector('.photo-placeholder').cloneNode(true);
     const mainOV  = mainCell.querySelector('.photo-overlay').cloneNode(true);
     const thumbPH = thumbCell.querySelector('.photo-placeholder').cloneNode(true);
     const thumbOV = thumbCell.querySelector('.photo-overlay').cloneNode(true);
-
-    // Brief fade-out on main
     mainCell.style.opacity = '0';
     mainCell.style.transform = 'scale(0.97)';
-
     setTimeout(() => {
-      // Replace content
       mainCell.querySelector('.photo-placeholder').replaceWith(thumbPH);
       mainCell.querySelector('.photo-overlay').replaceWith(thumbOV);
       thumbCell.querySelector('.photo-placeholder').replaceWith(mainPH);
       thumbCell.querySelector('.photo-overlay').replaceWith(mainOV);
-
-      // Fade back in
       mainCell.style.opacity = '1';
       mainCell.style.transform = 'scale(1)';
     }, 200);
@@ -54,3 +45,60 @@
       setTimeout(() => observer.observe(el), 10);
     });
   }
+
+  // ── VIDEO INTRO MODAL ──
+  // Trainer video config — ganti nilai `src` dengan path video lokal setelah aset tersedia.
+  // Contoh: src: 'video/basuki-intro.mp4'
+  const trainerVideos = {
+    basuki: {
+      name: 'Coach Basuki',
+      // Ganti string kosong di bawah dengan path video lokal, misal: 'video/basuki.mp4'
+      src: ''
+    },
+    mario: {
+      name: 'Coach Mario',
+      // Ganti string kosong di bawah dengan path video lokal, misal: 'video/mario.mp4'
+      src: ''
+    }
+  };
+
+  function openVideoModal(coachId) {
+    const config = trainerVideos[coachId];
+    const modal  = document.getElementById('videoModal');
+    const title  = document.getElementById('videoModalTitle');
+    const body   = document.getElementById('videoModalBody');
+
+    title.textContent = 'Video Perkenalan — ' + config.name;
+
+    if (config.src) {
+      body.innerHTML = `<video controls autoplay playsinline src="${config.src}"></video>`;
+    } else {
+      body.innerHTML = `
+        <div class="video-modal-placeholder">
+          <p style="font-size:16px;color:var(--white);margin-bottom:12px;">Video belum tersedia</p>
+          <p>Untuk menampilkan video perkenalan <strong>${config.name}</strong>, masukkan path file video ke dalam kode:<br><br>
+          <code>trainerVideos.${coachId}.src = 'nama-file-video.mp4'</code><br><br>
+          Letakkan file video di folder yang sama dengan file HTML ini.</p>
+        </div>`;
+    }
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    // Stop video playback
+    const video = modal.querySelector('video');
+    if (video) { video.pause(); video.src = ''; }
+  }
+
+  function closeVideoModalOnBackdrop(e) {
+    if (e.target === document.getElementById('videoModal')) closeVideoModal();
+  }
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') closeVideoModal();
+  });
