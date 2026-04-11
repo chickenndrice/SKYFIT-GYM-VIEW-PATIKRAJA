@@ -1,4 +1,4 @@
-﻿
+
   // Navbar scroll
   const navbar = document.getElementById('navbar');
   window.addEventListener('scroll', () => {
@@ -52,13 +52,11 @@
   const trainerVideos = {
     basuki: {
       name: 'Coach Basuki',
-      // Ganti string kosong di bawah dengan path video lokal, misal: 'video/basuki.mp4'
-      src: ''
+      src: 'assets/video/Coach_Basuki_Intro.mp4'
     },
     mario: {
       name: 'Coach Mario',
-      // Ganti string kosong di bawah dengan path video lokal, misal: 'video/mario.mp4'
-      src: ''
+      src: 'assets/video/Coach_Mario_Intro.mp4'
     }
   };
 
