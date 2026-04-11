@@ -1,9 +1,9 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="id">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Skyfit Gym Patikraja</title>
+<title>Skyfit Gym Patikraja — Fitness · Cardio · Gym Class</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="assets/css/style.css">
 </head>
@@ -253,7 +253,8 @@
     <!-- COACH BASUKI -->
     <div class="trainer-card reveal reveal-delay-1">
       <div class="trainer-photo">
-        <img src="assets/img/coach-basuki.jpg" alt="Coach Basuki">
+        <img src="assets/img/coach-basuki.jpg" alt="Coach Basuki" onerror="this.style.display='none'">
+        <div class="trainer-photo-placeholder"><div class="trainer-initial">B</div></div>
         <div class="trainer-badge">Coach</div>
         <button class="trainer-video-btn" onclick="openVideoModal('basuki')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
@@ -280,7 +281,8 @@
     <!-- COACH MARIO -->
     <div class="trainer-card reveal reveal-delay-2">
       <div class="trainer-photo">
-        <img src="assets/img/coach-mario.jpg" alt="Coach Mario">
+        <img src="assets/img/coach-mario.jpg" alt="Coach Mario" onerror="this.style.display='none'">
+        <div class="trainer-photo-placeholder"><div class="trainer-initial">M</div></div>
         <div class="trainer-badge">Coach</div>
         <button class="trainer-video-btn" onclick="openVideoModal('mario')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
@@ -315,14 +317,15 @@
     <button class="tab-btn active" onclick="switchTab('umum',this)">Member Umum</button>
     <button class="tab-btn" onclick="switchTab('pelajar',this)">Pelajar / Mahasiswa</button>
     <button class="tab-btn" onclick="switchTab('pt',this)">Personal Trainer</button>
+    <button class="tab-btn" onclick="switchTab('kelas',this)">Kelas Skyfit</button>
   </div>
 
   <!-- UMUM -->
   <div class="tab-panel active" id="tab-umum">
     <div class="promo-banner reveal">
       <div>
-        <div class="promo-banner-label">🔥 Promo Spesial New Skyfit</div>
-        <div class="promo-banner-title">Paket Hemat:<br>Member 1 Bulan + PT 1×</div>
+        <div class="promo-banner-label">Promo Spesial — Paket Hemat + PT</div>
+        <div class="promo-banner-title">Member 1 Bulan + PT 1&times;</div>
       </div>
       <div class="promo-banner-price">
         <div class="big">Rp 200k</div>
@@ -330,30 +333,50 @@
       </div>
     </div>
     <div class="pricing-grid">
-      <div class="price-card reveal"><div class="price-type">Harian / Visit</div><div class="price-amount"><span class="currency">Rp</span> 30k</div><div class="price-per">per kunjungan</div><div class="price-desc">Akses Gym & Cardio 1x kunjungan</div></div>
-      <div class="price-card reveal reveal-delay-1"><div class="price-type">Mingguan / 7 Hari</div><div class="price-amount"><span class="currency">Rp</span> 80k</div><div class="price-per">per 7 hari</div><div class="price-desc">Akses Gym & Cardio aktif 7 hari</div></div>
-      <div class="price-card reveal reveal-delay-2"><div class="price-type">Member 1 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 145k</div><div class="price-per">per orang + Rp 20k daftar</div><div class="price-desc">Akses Gym & Cardio sepuasnya</div></div>
-      <div class="price-card featured reveal reveal-delay-3"><div class="featured-badge">Best Deal</div><div class="price-type">Member 3 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 360k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 75.000</div></div>
-      <div class="price-card reveal reveal-delay-4"><div class="price-type">Member 6 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 690k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 180.000</div></div>
-      <div class="price-card reveal"><div class="price-type">Member 12 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 1.2jt</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 540.000</div></div>
-      <div class="price-card reveal reveal-delay-1"><div class="price-type">Paket Couple</div><div class="price-amount"><span class="currency">Rp</span> 260k</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 30.000</div><div class="price-desc">Pria + Wanita</div></div>
-      <!-- VIP MEMBER -->
+      <div class="price-card reveal"><div class="price-type">Harian / Visit</div><div class="price-amount"><span class="currency">Rp</span> 30k</div><div class="price-per">per kunjungan</div><div class="price-desc">Akses Gym &amp; Cardio 1x kunjungan</div></div>
+      <div class="price-card reveal reveal-delay-1"><div class="price-type">Mingguan / 7 Hari</div><div class="price-amount"><span class="currency">Rp</span> 80k</div><div class="price-per">per 7 hari</div><div class="price-desc">Akses Gym &amp; Cardio aktif 7 hari</div></div>
+      <div class="price-card reveal reveal-delay-2"><div class="price-type">Member 1 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 145k</div><div class="price-per">per orang + Rp 20k daftar</div><div class="price-desc">Akses Gym &amp; Cardio sepuasnya</div></div>
+      <div class="price-card reveal reveal-delay-3"><div class="price-type">Paket Couple</div><div class="price-amount"><span class="currency">Rp</span> 260k</div><div class="price-per">untuk 2 orang (Pria + Wanita)</div><div class="price-savings">Hemat Rp 30.000</div></div>
+      <div class="price-card featured reveal reveal-delay-4"><div class="featured-badge">Best Deal</div><div class="price-type">Member 3 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 360k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 75.000</div></div>
+      <div class="price-card reveal"><div class="price-type">Member 6 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 690k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 180.000</div></div>
+      <div class="price-card reveal reveal-delay-1"><div class="price-type">Member 12 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 1.2jt</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 540.000</div></div>
       <div class="price-card vip reveal reveal-delay-2">
         <div class="vip-header">
           <div>
-            <div class="vip-badge-label">⭐ Member VIP</div>
-            <div class="price-amount"><span class="currency">Rp</span> 185k</div>
-            <div class="price-per">per orang / 1 bulan aktif</div>
+            <div class="vip-badge-label">Member VIP</div>
+            <div class="price-amount"><span class="currency">Rp</span> 215k</div>
+            <div class="price-per">per orang / bulan + Rp 20k kartu VIP</div>
           </div>
           <span class="featured-badge" style="position:relative;top:auto;right:auto;align-self:flex-start;">VIP</span>
         </div>
         <div class="vip-perks">
           <div class="vip-perk"><div class="vip-perk-dot"></div>VIP Member Card</div>
           <div class="vip-perk"><div class="vip-perk-dot"></div>All Access Gym &amp; Cardio</div>
-          <div class="vip-perk"><div class="vip-perk-dot"></div>Unlimited Kelas Reguler</div>
+          <div class="vip-perk"><div class="vip-perk-dot"></div>Unlimited Kelas Skyfit</div>
           <div class="vip-perk"><div class="vip-perk-dot"></div>Free Handuk saat Latihan</div>
         </div>
-        <div class="vip-note">* Unlimited kelas berlaku untuk semua kelas, kecuali Fit Kid &amp; Fit Elderly</div>
+        <div class="vip-note">* Belum termasuk Personal Trainer, Fit Kid &amp; Fit Elderly Class</div>
+      </div>
+    </div>
+    <div class="vip-info-box reveal">
+      <div class="vip-info-title">Apa itu Member VIP?</div>
+      <div class="vip-info-sub">Member bulanan eksklusif Skyfit dengan banyak keuntungan dibanding member umum.</div>
+      <div class="vip-info-grid">
+        <div>
+          <div class="vip-info-col-title">Keuntungan</div>
+          <div class="vip-info-list">
+            <div class="vip-info-item"><div class="vip-info-dot"></div>All access Gym &amp; Cardio sepuasnya</div>
+            <div class="vip-info-item"><div class="vip-info-dot"></div>Unlimited kelas Skyfit &mdash; bebas ikut sesi sepuasnya, kecuali Fit Kid &amp; Fit Elderly</div>
+            <div class="vip-info-item"><div class="vip-info-dot"></div>Mendapat handuk gratis saat latihan</div>
+          </div>
+        </div>
+        <div>
+          <div class="vip-info-col-title">Cara Daftar</div>
+          <div class="vip-info-list">
+            <div class="vip-info-item"><div class="vip-info-dot"></div><span><strong>Upgrade dari Member Umum:</strong> bayar kartu VIP Rp 20.000 + biaya tambahan Rp 70.000 (masa aktif mengikuti kartu lama)</span></div>
+            <div class="vip-info-item"><div class="vip-info-dot"></div><span><strong>Member Baru / Upgrade Penuh:</strong> bayar kartu VIP Rp 20.000 + member VIP Rp 215.000 (aktif 1 bulan dari pendaftaran)</span></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -362,8 +385,8 @@
   <div class="tab-panel" id="tab-pelajar">
     <div class="promo-banner reveal">
       <div>
-        <div class="promo-banner-label">🎓 Khusus Pelajar / Mahasiswa</div>
-        <div class="promo-banner-title">Wajib menunjukkan Kartu Pelajar<br><span style="font-size:18px;font-weight:400;color:var(--muted);">Maks. Pelajar 18th · Mahasiswa 22th</span></div>
+        <div class="promo-banner-label">Khusus Pelajar / Mahasiswa</div>
+        <div class="promo-banner-title">Wajib menunjukkan Kartu Pelajar<br><span style="font-size:18px;font-weight:400;color:var(--muted);">Maks. Pelajar 18th &middot; Mahasiswa 22th</span></div>
       </div>
     </div>
     <div class="pricing-grid">
@@ -373,23 +396,22 @@
       <div class="price-card featured reveal reveal-delay-3"><div class="featured-badge">Best Deal</div><div class="price-type">Member 3 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 320k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 40.000</div></div>
       <div class="price-card reveal reveal-delay-4"><div class="price-type">Member 6 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 600k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 120.000</div></div>
       <div class="price-card reveal"><div class="price-type">Member 12 Bulan</div><div class="price-amount"><span class="currency">Rp</span> 999k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 441.000</div></div>
-      <!-- VIP MEMBER PELAJAR -->
       <div class="price-card vip reveal reveal-delay-1">
         <div class="vip-header">
           <div>
-            <div class="vip-badge-label">⭐ Member VIP</div>
-            <div class="price-amount"><span class="currency">Rp</span> 185k</div>
-            <div class="price-per">per orang / 1 bulan aktif</div>
+            <div class="vip-badge-label">Member VIP</div>
+            <div class="price-amount"><span class="currency">Rp</span> 215k</div>
+            <div class="price-per">per orang / bulan + Rp 20k kartu VIP</div>
           </div>
           <span class="featured-badge" style="position:relative;top:auto;right:auto;align-self:flex-start;">VIP</span>
         </div>
         <div class="vip-perks">
           <div class="vip-perk"><div class="vip-perk-dot"></div>VIP Member Card</div>
           <div class="vip-perk"><div class="vip-perk-dot"></div>All Access Gym &amp; Cardio</div>
-          <div class="vip-perk"><div class="vip-perk-dot"></div>Unlimited Kelas Reguler</div>
+          <div class="vip-perk"><div class="vip-perk-dot"></div>Unlimited Kelas Skyfit</div>
           <div class="vip-perk"><div class="vip-perk-dot"></div>Free Handuk saat Latihan</div>
         </div>
-        <div class="vip-note">* Unlimited kelas berlaku untuk semua kelas, kecuali Fit Kid &amp; Fit Elderly</div>
+        <div class="vip-note">* Belum termasuk Personal Trainer, Fit Kid &amp; Fit Elderly Class</div>
       </div>
     </div>
   </div>
@@ -400,27 +422,70 @@
       <div style="background:rgba(200,230,0,0.05);border:1px solid rgba(200,230,0,0.2);border-radius:8px;padding:20px 24px;">
         <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:8px;">Coach</div>
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;text-transform:uppercase;">Coach Basuki</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Ragavaganza Champion 2024</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Ragavaganza National 1st Winner 2024</div>
       </div>
       <div style="background:rgba(200,230,0,0.05);border:1px solid rgba(200,230,0,0.2);border-radius:8px;padding:20px 24px;">
         <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:8px;">Coach</div>
         <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;text-transform:uppercase;">Coach Mario</div>
-        <div style="font-size:12px;color:var(--muted);margin-top:4px;">10+ Years · 500+ Clients</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">10+ Years Experience &middot; 500+ Clients</div>
       </div>
     </div>
     <div class="pricing-grid">
-      <div class="price-card reveal"><div class="price-type">PT 1× Privat</div><div class="price-amount"><span class="currency">Rp</span> 100k</div><div class="price-per">per orang</div></div>
-      <div class="price-card reveal reveal-delay-1"><div class="price-type">PT 1× Couple</div><div class="price-amount"><span class="currency">Rp</span> 180k</div><div class="price-per">untuk 2 orang</div></div>
-      <div class="price-card reveal reveal-delay-2"><div class="price-type">PT 3× Privat</div><div class="price-amount"><span class="currency">Rp</span> 260k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 40.000</div></div>
-      <div class="price-card reveal reveal-delay-3"><div class="price-type">PT 3× Couple</div><div class="price-amount"><span class="currency">Rp</span> 450k</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 90.000</div></div>
-      <div class="price-card featured reveal reveal-delay-4"><div class="featured-badge">Popular</div><div class="price-type">PT 6× Privat</div><div class="price-amount"><span class="currency">Rp</span> 500k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 100.000</div></div>
-      <div class="price-card reveal"><div class="price-type">PT 6× Couple</div><div class="price-amount"><span class="currency">Rp</span> 850k</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 230.000</div></div>
-      <div class="price-card reveal reveal-delay-1"><div class="price-type">PT 12× Privat</div><div class="price-amount"><span class="currency">Rp</span> 950k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 250.000</div></div>
-      <div class="price-card featured reveal reveal-delay-2"><div class="featured-badge">Best Value</div><div class="price-type">PT 12× Couple</div><div class="price-amount"><span class="currency">Rp</span> 1.55jt</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 610.000</div></div>
+      <div class="price-card reveal"><div class="price-type">PT 1&times; Privat</div><div class="price-amount"><span class="currency">Rp</span> 100k</div><div class="price-per">per orang</div></div>
+      <div class="price-card reveal reveal-delay-1"><div class="price-type">PT 1&times; Couple</div><div class="price-amount"><span class="currency">Rp</span> 180k</div><div class="price-per">untuk 2 orang</div></div>
+      <div class="price-card reveal reveal-delay-2"><div class="price-type">Paket Hemat Group</div><div class="price-amount"><span class="currency">Rp</span> 70k</div><div class="price-per">per orang (group 3&ndash;5 orang)</div><div class="price-desc">Masa aktif PT 1 bulan. Wajib booking jadwal.</div></div>
+      <div class="price-card reveal reveal-delay-3"><div class="price-type">PT 3&times; Privat</div><div class="price-amount"><span class="currency">Rp</span> 260k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 40.000</div></div>
+      <div class="price-card reveal reveal-delay-4"><div class="price-type">PT 3&times; Couple</div><div class="price-amount"><span class="currency">Rp</span> 450k</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 90.000</div></div>
+      <div class="price-card reveal"><div class="price-type">PT 6&times; Privat</div><div class="price-amount"><span class="currency">Rp</span> 500k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 100.000</div></div>
+      <div class="price-card reveal reveal-delay-1"><div class="price-type">PT 6&times; Couple</div><div class="price-amount"><span class="currency">Rp</span> 850k</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 230.000</div></div>
+      <div class="price-card reveal reveal-delay-2"><div class="price-type">PT 12&times; Privat</div><div class="price-amount"><span class="currency">Rp</span> 950k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 250.000</div></div>
+      <div class="price-card featured reveal reveal-delay-3"><div class="featured-badge">Best Deal</div><div class="price-type">PT 12&times; Couple</div><div class="price-amount"><span class="currency">Rp</span> 1.55jt</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 610.000</div></div>
     </div>
-    <div style="margin-top:28px;padding:20px;border:1px solid var(--border);border-radius:6px;background:var(--card);" class="reveal">
-      <div style="font-size:11px;letter-spacing:2px;color:var(--lime);text-transform:uppercase;margin-bottom:8px;">Kelas Skyfit — Coming Soon</div>
-      <div style="font-size:15px;color:var(--muted);">Functional Training · Yoga &amp; Meditation · Body Pump · dan banyak lagi.</div>
+    <div style="margin-top:20px;padding:16px 20px;border:1px solid var(--border);border-radius:6px;background:var(--card);" class="reveal">
+      <div style="font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Catatan</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.7;">Masa aktif Personal Trainer 1 bulan dari pendaftaran. Wajib booking jadwal terlebih dahulu.</div>
+    </div>
+  </div>
+
+  <!-- KELAS SKYFIT -->
+  <div class="tab-panel" id="tab-kelas">
+    <div class="promo-banner reveal" style="margin-bottom:32px;">
+      <div>
+        <div class="promo-banner-label">Member VIP &mdash; Unlimited Kelas</div>
+        <div class="promo-banner-title">Ikuti semua kelas sepuasnya<br><span style="font-size:16px;font-weight:400;color:var(--muted);">Kecuali Fit Kid &amp; Fit Elderly Class</span></div>
+      </div>
+      <div class="promo-banner-price">
+        <div class="big">Rp 215k</div>
+        <div class="save">VIP Membership / bulan</div>
+      </div>
+    </div>
+    <div class="kelas-group-title reveal">Kelas Reguler &mdash; Rp 30.000 / sesi</div>
+    <div class="kelas-grid reveal reveal-delay-1">
+      <div class="kelas-card"><div class="kelas-name">Aerobik</div><div class="kelas-row"><span class="sessions">1&times; Sesi</span><span class="price">Rp 30.000</span></div><div class="kelas-row"><span class="sessions">3&times; Sesi</span><span class="price">Rp 75.000</span><span class="saving">Hemat 15rb</span></div></div>
+      <div class="kelas-card"><div class="kelas-name">Body Combat</div><div class="kelas-row"><span class="sessions">1&times; Sesi</span><span class="price">Rp 30.000</span></div><div class="kelas-row"><span class="sessions">3&times; Sesi</span><span class="price">Rp 75.000</span><span class="saving">Hemat 15rb</span></div></div>
+      <div class="kelas-card"><div class="kelas-name">Body Pump</div><div class="kelas-row"><span class="sessions">1&times; Sesi</span><span class="price">Rp 30.000</span></div><div class="kelas-row"><span class="sessions">3&times; Sesi</span><span class="price">Rp 75.000</span><span class="saving">Hemat 15rb</span></div></div>
+      <div class="kelas-card"><div class="kelas-name">Full Body HIIT</div><div class="kelas-row"><span class="sessions">1&times; Sesi</span><span class="price">Rp 30.000</span></div><div class="kelas-row"><span class="sessions">3&times; Sesi</span><span class="price">Rp 75.000</span><span class="saving">Hemat 15rb</span></div></div>
+      <div class="kelas-card"><div class="kelas-name">Agility &amp; Strength</div><div class="kelas-row"><span class="sessions">1&times; Sesi</span><span class="price">Rp 30.000</span></div><div class="kelas-row"><span class="sessions">3&times; Sesi</span><span class="price">Rp 75.000</span><span class="saving">Hemat 15rb</span></div></div>
+    </div>
+    <div class="kelas-group-title reveal" style="margin-top:32px;">Kelas Premium &mdash; Rp 35.000 / sesi</div>
+    <div class="kelas-grid reveal reveal-delay-1">
+      <div class="kelas-card"><div class="kelas-name">Yoga &amp; Meditasi</div><div class="kelas-row"><span class="sessions">1&times; Sesi</span><span class="price">Rp 35.000</span></div><div class="kelas-row"><span class="sessions">3&times; Sesi</span><span class="price">Rp 90.000</span><span class="saving">Hemat 15rb</span></div></div>
+      <div class="kelas-card"><div class="kelas-name">Functional Training</div><div class="kelas-row"><span class="sessions">1&times; Sesi</span><span class="price">Rp 35.000</span></div><div class="kelas-row"><span class="sessions">3&times; Sesi</span><span class="price">Rp 90.000</span><span class="saving">Hemat 15rb</span></div></div>
+      <div class="kelas-card"><div class="kelas-name">Fit Boxing Class</div><div class="kelas-row"><span class="sessions">1&times; Sesi</span><span class="price">Rp 35.000</span></div><div class="kelas-row"><span class="sessions">3&times; Sesi</span><span class="price">Rp 90.000</span><span class="saving">Hemat 15rb</span></div></div>
+    </div>
+    <div class="kelas-group-title reveal" style="margin-top:32px;">Kelas Eksklusif</div>
+    <div class="kelas-grid reveal reveal-delay-1">
+      <div class="kelas-card exclusive"><div class="kelas-exclusive-badge">Eksklusif</div><div class="kelas-name">Fit Kid Class</div><div style="font-size:11px;color:var(--muted);margin-bottom:10px;">untuk anak-anak</div><div class="kelas-row"><span class="sessions">1&times; Sesi</span><span class="price">Rp 55.000</span></div><div class="kelas-row"><span class="sessions">3&times; Sesi</span><span class="price">Rp 140.000</span><span class="saving">Hemat 25rb</span></div></div>
+      <div class="kelas-card exclusive"><div class="kelas-exclusive-badge">Eksklusif</div><div class="kelas-name">Fit Elderly Class</div><div style="font-size:11px;color:var(--muted);margin-bottom:10px;">untuk orang tua &amp; lansia</div><div class="kelas-row"><span class="sessions">1&times; Sesi</span><span class="price">Rp 50.000</span></div><div class="kelas-row"><span class="sessions">3&times; Sesi</span><span class="price">Rp 130.000</span><span class="saving">Hemat 20rb</span></div></div>
+    </div>
+    <div class="schedule-rules reveal" style="margin-top:28px;">
+      <div class="schedule-rules-title">Ketentuan Kelas</div>
+      <ul>
+        <li>Limited slot hanya <strong style="color:var(--white);">4&ndash;8 orang per sesi</strong>.</li>
+        <li>Peserta wajib booking terlebih dahulu, atau mendaftar mendadak jika kuota masih tersedia.</li>
+        <li>Member VIP dapat menikmati <strong style="color:var(--lime);">Unlimited Kelas</strong>, kecuali Fit Kid &amp; Fit Elderly.</li>
+        <li>Member umum dan Non Member/Visit dapat mengikuti kelas dengan biaya tambahan per sesi.</li>
+      </ul>
     </div>
   </div>
 </section>
