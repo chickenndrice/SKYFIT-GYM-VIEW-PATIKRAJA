@@ -1,0 +1,1150 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Skyfit Gym Patikraja — Fitness · Cardio · Gym Class</title>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --lime: #C8E600;
+    --lime-dark: #9DB800;
+    --black: #080808;
+    --card: #111111;
+    --card2: #171717;
+    --border: #2a2a2a;
+    --muted: #888888;
+    --white: #f5f5f5;
+    --gray: #3a3a3a;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'Outfit', sans-serif;
+    overflow-x: hidden;
+  }
+
+  /* ─── SCROLLBAR ─── */
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--lime); border-radius: 2px; }
+
+  /* ─── NAVBAR ─── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    padding: 18px 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    background: rgba(8,8,8,0); backdrop-filter: blur(0px);
+    transition: background 0.4s, backdrop-filter 0.4s;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled {
+    background: rgba(8,8,8,0.92);
+    backdrop-filter: blur(16px);
+    border-bottom-color: var(--border);
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 26px;
+    letter-spacing: 3px;
+    color: var(--white);
+  }
+  .nav-logo span { color: var(--lime); }
+  .nav-links { display: flex; gap: 36px; list-style: none; }
+  .nav-links a {
+    text-decoration: none;
+    color: var(--muted);
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--lime); }
+  .nav-cta {
+    background: var(--lime);
+    color: var(--black);
+    padding: 10px 24px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    text-decoration: none;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
+    transition: background 0.2s, transform 0.2s;
+  }
+  .nav-cta:hover { background: var(--white); transform: scaleX(1.04); }
+
+  /* ─── HERO ─── */
+  #hero {
+    min-height: 100vh;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 5vw 8vh;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-bg {
+    position: absolute; inset: 0;
+    background: linear-gradient(160deg, #0f1a00 0%, #080808 55%, #0a0a0a 100%);
+  }
+  .hero-hex-pattern {
+    position: absolute; inset: 0; opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='70'%3E%3Cpolygon points='30,2 58,17 58,53 30,68 2,53 2,17' fill='none' stroke='%23C8E600' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 60px 70px;
+  }
+  .hero-glow {
+    position: absolute; top: -20%; right: -10%;
+    width: 60vw; height: 80vh;
+    background: radial-gradient(ellipse, rgba(200,230,0,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .hero-tag {
+    font-size: 12px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--lime); font-weight: 600;
+    margin-bottom: 20px;
+    display: flex; align-items: center; gap: 12px;
+    position: relative; z-index: 2;
+  }
+  .hero-tag::before {
+    content: ''; width: 40px; height: 1px; background: var(--lime);
+  }
+  .hero-headline {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(70px, 12vw, 160px);
+    line-height: 0.88;
+    letter-spacing: -1px;
+    position: relative; z-index: 2;
+  }
+  .hero-headline .outline {
+    -webkit-text-stroke: 1.5px var(--white);
+    color: transparent;
+  }
+  .hero-headline .accent { color: var(--lime); }
+  .hero-sub {
+    font-size: 15px; color: var(--muted); font-weight: 400;
+    max-width: 420px; line-height: 1.7; margin: 28px 0 40px;
+    position: relative; z-index: 2;
+  }
+  .hero-actions { display: flex; gap: 16px; align-items: center; position: relative; z-index: 2; }
+  .btn-primary {
+    background: var(--lime); color: var(--black);
+    padding: 16px 36px; font-weight: 700; font-size: 13px;
+    letter-spacing: 2px; text-transform: uppercase; text-decoration: none;
+    clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%);
+    transition: background 0.2s, transform 0.15s;
+    display: inline-block;
+  }
+  .btn-primary:hover { background: var(--white); transform: scaleX(1.04); }
+  .btn-ghost {
+    color: var(--white); font-size: 13px; font-weight: 500;
+    letter-spacing: 1px; text-decoration: none;
+    display: flex; align-items: center; gap: 10px;
+    transition: color 0.2s;
+  }
+  .btn-ghost:hover { color: var(--lime); }
+  .btn-ghost .arrow {
+    width: 36px; height: 36px; border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px; transition: border-color 0.2s;
+  }
+  .btn-ghost:hover .arrow { border-color: var(--lime); }
+
+  .hero-stats {
+    position: absolute; right: 5vw; bottom: 8vh;
+    display: flex; flex-direction: column; gap: 28px;
+    z-index: 2;
+  }
+  .hero-stat { text-align: right; }
+  .hero-stat .num {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 44px; font-weight: 800; color: var(--lime); line-height: 1;
+  }
+  .hero-stat .label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+
+  .scroll-indicator {
+    position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%);
+    z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px;
+    animation: bounce 2s ease-in-out infinite;
+  }
+  .scroll-indicator span { font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; }
+  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--lime), transparent); }
+  @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+  /* ─── SECTION SHARED ─── */
+  section { padding: 100px 5vw; }
+  .section-tag {
+    font-size: 11px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--lime); font-weight: 600; margin-bottom: 16px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .section-tag::before { content: ''; width: 30px; height: 1px; background: var(--lime); }
+  .section-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(42px, 6vw, 80px);
+    font-weight: 800; line-height: 0.92;
+    text-transform: uppercase; letter-spacing: -1px;
+  }
+  .section-title .outline {
+    -webkit-text-stroke: 1.5px rgba(245,245,245,0.25);
+    color: transparent;
+  }
+
+  .reveal {
+    opacity: 0; transform: translateY(40px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ─── TICKER ─── */
+  .ticker-wrap {
+    background: var(--lime);
+    overflow: hidden; padding: 14px 0;
+    display: flex;
+  }
+  .ticker {
+    display: flex; gap: 0;
+    animation: ticker 20s linear infinite;
+    white-space: nowrap;
+  }
+  .ticker-item {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 18px; font-weight: 700; text-transform: uppercase;
+    color: var(--black); padding: 0 36px;
+    letter-spacing: 2px;
+  }
+  .ticker-dot {
+    color: rgba(0,0,0,0.35);
+    font-size: 20px; padding: 0 4px;
+  }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ─── FASILITAS ─── */
+  #fasilitas { background: var(--black); }
+  .facilities-header {
+    display: flex; justify-content: space-between; align-items: flex-end;
+    margin-bottom: 60px; flex-wrap: wrap; gap: 24px;
+  }
+  .facilities-desc { max-width: 320px; color: var(--muted); line-height: 1.7; font-size: 15px; }
+
+  .photo-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    grid-template-rows: 260px 260px;
+    gap: 12px;
+  }
+  .photo-cell {
+    background: var(--card2);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.4s ease, border-color 0.3s;
+  }
+  .photo-cell:hover { transform: scale(1.02); border-color: var(--lime); z-index: 2; }
+  .photo-cell.tall { grid-row: 1 / 3; }
+  .photo-cell img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    filter: brightness(0.75) saturate(0.8);
+    transition: filter 0.4s, transform 0.6s;
+  }
+  .photo-cell:hover img { filter: brightness(0.9) saturate(1); transform: scale(1.06); }
+  .photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 12px;
+    background: linear-gradient(135deg, var(--card2), var(--card));
+  }
+  .photo-placeholder .ph-icon {
+    width: 48px; height: 48px; opacity: 0.2;
+    border: 2px solid var(--lime);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .photo-placeholder .ph-label {
+    font-size: 11px; letter-spacing: 3px; color: var(--muted);
+    text-transform: uppercase; text-align: center; padding: 0 20px;
+  }
+  .photo-overlay {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: 20px;
+    background: linear-gradient(to top, rgba(0,0,0,0.85), transparent);
+  }
+  .photo-overlay h3 {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 20px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+
+  .facility-tags {
+    display: flex; flex-wrap: wrap; gap: 10px; margin-top: 50px;
+  }
+  .facility-tag {
+    background: transparent; border: 1px solid var(--border);
+    padding: 10px 20px; border-radius: 40px;
+    font-size: 13px; color: var(--muted); letter-spacing: 0.5px;
+    transition: border-color 0.2s, color 0.2s, background 0.2s;
+  }
+  .facility-tag:hover, .facility-tag.active {
+    border-color: var(--lime); color: var(--black); background: var(--lime);
+  }
+
+  /* ─── HOURS STRIP ─── */
+  .hours-strip {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    padding: 30px 5vw;
+    display: flex; align-items: center; gap: 60px; flex-wrap: wrap;
+  }
+  .hours-label {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; letter-spacing: 4px; text-transform: uppercase;
+    color: var(--lime);
+  }
+  .hours-item { display: flex; align-items: center; gap: 16px; }
+  .hours-day { font-size: 14px; color: var(--muted); font-weight: 400; }
+  .hours-time {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 22px; font-weight: 700; color: var(--white); letter-spacing: 1px;
+  }
+  .hours-sep { width: 1px; height: 30px; background: var(--border); }
+
+  /* ─── TRAINERS ─── */
+  #trainer { background: var(--card); }
+  .trainers-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-top: 60px;
+  }
+  .trainer-card {
+    background: var(--black);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    overflow: hidden;
+    position: relative;
+    transition: border-color 0.3s, transform 0.3s;
+  }
+  .trainer-card:hover { border-color: var(--lime); transform: translateY(-6px); }
+
+  .trainer-photo {
+    height: 380px;
+    background: var(--card2);
+    position: relative;
+    overflow: hidden;
+    display: flex; align-items: flex-end;
+  }
+  .trainer-photo img {
+    width: 100%; height: 100%;
+    object-fit: cover; object-position: top center;
+    filter: brightness(0.7) saturate(0.7);
+    transition: filter 0.4s;
+  }
+  .trainer-card:hover .trainer-photo img { filter: brightness(0.85) saturate(0.9); }
+  .trainer-photo-placeholder {
+    width: 100%; height: 100%;
+    display: flex; align-items: center; justify-content: center;
+    background: linear-gradient(160deg, #151500, #0a0a0a);
+  }
+  .trainer-initial {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 140px; color: rgba(200,230,0,0.06); line-height: 1;
+    letter-spacing: -5px;
+  }
+  .trainer-badge {
+    position: absolute; top: 20px; left: 20px;
+    background: var(--lime); color: var(--black);
+    font-size: 11px; font-weight: 700; letter-spacing: 2px;
+    padding: 6px 14px; text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%);
+  }
+  .trainer-info {
+    padding: 28px 28px 32px;
+    border-top: 1px solid var(--border);
+    position: relative;
+  }
+  .trainer-info::before {
+    content: ''; position: absolute; top: 0; left: 28px;
+    width: 40px; height: 3px; background: var(--lime);
+  }
+  .trainer-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 36px; font-weight: 800; letter-spacing: 0px;
+    text-transform: uppercase; margin-bottom: 4px;
+  }
+  .trainer-role { font-size: 13px; color: var(--lime); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+  .trainer-specs { display: flex; flex-direction: column; gap: 10px; }
+  .trainer-spec {
+    display: flex; align-items: flex-start; gap: 12px;
+    font-size: 13px; color: var(--muted);
+  }
+  .spec-icon {
+    width: 20px; height: 20px; flex-shrink: 0; margin-top: 2px;
+    color: var(--lime); font-size: 14px;
+  }
+  .trainer-achievements {
+    display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px;
+  }
+  .achievement-pill {
+    background: rgba(200,230,0,0.1);
+    border: 1px solid rgba(200,230,0,0.25);
+    color: var(--lime); font-size: 11px; font-weight: 600;
+    letter-spacing: 1px; text-transform: uppercase;
+    padding: 5px 14px; border-radius: 40px;
+  }
+
+  /* ─── PRICING ─── */
+  #pricelist { background: var(--black); }
+  .pricing-tabs {
+    display: flex; gap: 0; margin: 48px 0 40px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    background: none; border: none; cursor: pointer;
+    padding: 14px 28px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    margin-bottom: -1px;
+  }
+  .tab-btn.active { color: var(--lime); border-bottom-color: var(--lime); }
+  .tab-btn:hover { color: var(--white); }
+
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .price-card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    padding: 24px 22px;
+    transition: border-color 0.3s, transform 0.3s;
+    position: relative;
+    overflow: hidden;
+  }
+  .price-card::before {
+    content: ''; position: absolute; top: 0; left: 0; right: 0;
+    height: 3px; background: transparent;
+    transition: background 0.3s;
+  }
+  .price-card:hover { border-color: rgba(200,230,0,0.4); transform: translateY(-4px); }
+  .price-card:hover::before { background: var(--lime); }
+  .price-card.featured {
+    border-color: var(--lime); background: rgba(200,230,0,0.05);
+  }
+  .price-card.featured::before { background: var(--lime); }
+  .featured-badge {
+    position: absolute; top: 12px; right: 12px;
+    background: var(--lime); color: var(--black);
+    font-size: 9px; font-weight: 700; letter-spacing: 1.5px;
+    padding: 4px 10px; text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%);
+  }
+  .price-type {
+    font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 12px;
+  }
+  .price-amount {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 32px; font-weight: 800; color: var(--white); line-height: 1;
+  }
+  .price-amount .currency { font-size: 16px; font-weight: 400; color: var(--muted); vertical-align: super; }
+  .price-per { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .price-savings {
+    display: inline-block; margin-top: 12px;
+    background: rgba(200,230,0,0.12); color: var(--lime);
+    font-size: 11px; font-weight: 600; letter-spacing: 1px;
+    padding: 4px 10px; border-radius: 40px;
+  }
+  .price-desc { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
+  .price-divider { border: none; border-top: 1px solid var(--border); margin: 48px 0 0; }
+
+  .promo-banner {
+    background: linear-gradient(135deg, rgba(200,230,0,0.12), rgba(200,230,0,0.04));
+    border: 1px solid rgba(200,230,0,0.3);
+    border-radius: 8px;
+    padding: 24px 28px;
+    margin-bottom: 28px;
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;
+  }
+  .promo-banner-label {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 6px;
+  }
+  .promo-banner-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .promo-banner-price {
+    text-align: right;
+  }
+  .promo-banner-price .big {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 40px; font-weight: 800; color: var(--lime); line-height: 1;
+  }
+  .promo-banner-price .save { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* ─── CONTACT/FOOTER ─── */
+  #kontak {
+    background: var(--card);
+    border-top: 1px solid var(--border);
+    padding: 80px 5vw 0;
+  }
+  .contact-grid {
+    display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px;
+    padding-bottom: 80px;
+    border-bottom: 1px solid var(--border);
+  }
+  .contact-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(40px, 5vw, 70px);
+    font-weight: 800; text-transform: uppercase;
+    line-height: 0.92; margin-bottom: 28px;
+  }
+  .contact-title .lime { color: var(--lime); }
+  .contact-desc { color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 400px; }
+
+  .contact-links { display: flex; flex-direction: column; gap: 20px; }
+  .contact-link {
+    display: flex; align-items: center; gap: 20px;
+    text-decoration: none; padding: 20px 24px;
+    border: 1px solid var(--border); border-radius: 6px;
+    background: var(--black);
+    transition: border-color 0.3s, transform 0.3s, background 0.3s;
+    group: '';
+  }
+  .contact-link:hover { border-color: var(--lime); transform: translateX(6px); background: rgba(200,230,0,0.04); }
+  .contact-icon {
+    width: 48px; height: 48px; border-radius: 50%;
+    border: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0; transition: border-color 0.3s, background 0.3s;
+  }
+  .contact-link:hover .contact-icon { border-color: var(--lime); background: var(--lime); }
+  .contact-icon svg { transition: stroke 0.3s, fill 0.3s; }
+  .contact-link:hover .contact-icon svg { color: var(--black); }
+  .contact-info-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .contact-info-value { font-size: 15px; font-weight: 500; color: var(--white); }
+
+  .address-block { margin-top: 36px; }
+  .address-block .adr-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .address-block .adr-text { font-size: 15px; color: var(--white); line-height: 1.6; }
+  .address-block .adr-text a {
+    color: var(--lime); text-decoration: none;
+    display: inline-flex; align-items: center; gap: 6px; margin-top: 10px;
+    font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    transition: gap 0.2s;
+  }
+  .address-block .adr-text a:hover { gap: 10px; }
+
+  footer {
+    padding: 28px 5vw;
+    display: flex; align-items: center; justify-content: space-between;
+    flex-wrap: wrap; gap: 16px;
+  }
+  .footer-brand {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 18px; letter-spacing: 3px; color: var(--muted);
+  }
+  .footer-brand span { color: var(--lime); }
+  .footer-copy { font-size: 12px; color: var(--gray); }
+  .footer-tagline {
+    font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray);
+  }
+
+  /* ─── RESPONSIVE ─── */
+  @media (max-width: 768px) {
+    .nav-links { display: none; }
+    .hero-stats { display: none; }
+    .photo-grid { grid-template-columns: 1fr 1fr; grid-template-rows: 200px 200px 200px; }
+    .photo-cell.tall { grid-row: auto; }
+    .trainers-grid { grid-template-columns: 1fr; }
+    .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+    .pricing-grid { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    section { padding: 70px 5vw; }
+    .photo-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+    .pricing-grid { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav id="navbar">
+  <div class="nav-logo">SKY<span>FIT</span></div>
+  <ul class="nav-links">
+    <li><a href="#fasilitas">Fasilitas</a></li>
+    <li><a href="#trainer">Trainer</a></li>
+    <li><a href="#pricelist">Pricelist</a></li>
+    <li><a href="#kontak">Kontak</a></li>
+  </ul>
+  <a href="https://wa.me/6288200862953" target="_blank" class="nav-cta">Daftar Sekarang</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-hex-pattern"></div>
+  <div class="hero-glow"></div>
+
+  <div class="hero-tag reveal">Skyfit Gym Patikraja</div>
+  <h1 class="hero-headline reveal reveal-delay-1">
+    <span class="outline">FORGE</span><br>
+    YOUR<br>
+    <span class="accent">BEST</span><br>
+    <span class="outline">SELF</span>
+  </h1>
+  <p class="hero-sub reveal reveal-delay-2">
+    Gym modern di Patikraja dengan fasilitas lengkap, trainer berpengalaman, dan lingkungan yang mendukung setiap langkah perjalanan fitnessmu.
+  </p>
+  <div class="hero-actions reveal reveal-delay-3">
+    <a href="#pricelist" class="btn-primary">Lihat Pricelist</a>
+    <a href="#fasilitas" class="btn-ghost">
+      <span class="arrow">↓</span>
+      Jelajahi Gym
+    </a>
+  </div>
+
+  <div class="hero-stats reveal reveal-delay-4">
+    <div class="hero-stat">
+      <div class="num">2+</div>
+      <div class="label">Expert Trainers</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">500+</div>
+      <div class="label">Member Aktif</div>
+    </div>
+    <div class="hero-stat">
+      <div class="num">16h</div>
+      <div class="label">Buka Per Hari</div>
+    </div>
+  </div>
+
+  <div class="scroll-indicator">
+    <div class="scroll-line"></div>
+    <span>Scroll</span>
+  </div>
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <span class="ticker-item">Fitness</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">Cardio Area</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">Gym Class</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">Personal Training</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">High Speed Wifi</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">View Sawah & Gunung</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">Parkir Gratis</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">Fitness</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">Cardio Area</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">Gym Class</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">Personal Training</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">High Speed Wifi</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">View Sawah & Gunung</span><span class="ticker-dot">◆</span>
+    <span class="ticker-item">Parkir Gratis</span><span class="ticker-dot">◆</span>
+  </div>
+</div>
+
+<!-- FASILITAS -->
+<section id="fasilitas">
+  <div class="facilities-header">
+    <div>
+      <div class="section-tag reveal">Fasilitas Kami</div>
+      <h2 class="section-title reveal reveal-delay-1">AREA<br><span class="outline">TRAINING</span></h2>
+    </div>
+    <p class="facilities-desc reveal reveal-delay-2">
+      Dilengkapi peralatan gym modern, cardio zone, kelas reguler, dan pemandangan sawah & gunung yang menyegarkan.
+    </p>
+  </div>
+
+  <div class="photo-grid">
+    <!-- Large main photo -->
+    <div class="photo-cell tall reveal">
+      <div class="photo-placeholder">
+        <div class="ph-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#C8E600" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <div class="ph-label">Foto Utama<br>Gym Area</div>
+      </div>
+      <div class="photo-overlay"><h3>Main Gym Floor</h3></div>
+    </div>
+    <!-- Top right 1 -->
+    <div class="photo-cell reveal reveal-delay-1">
+      <div class="photo-placeholder">
+        <div class="ph-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#C8E600" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <div class="ph-label">Cardio Area</div>
+      </div>
+      <div class="photo-overlay"><h3>Cardio Zone</h3></div>
+    </div>
+    <!-- Top right 2 -->
+    <div class="photo-cell reveal reveal-delay-2">
+      <div class="photo-placeholder">
+        <div class="ph-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#C8E600" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <div class="ph-label">Free Weights</div>
+      </div>
+      <div class="photo-overlay"><h3>Free Weights</h3></div>
+    </div>
+    <!-- Bottom right 1 -->
+    <div class="photo-cell reveal reveal-delay-3">
+      <div class="photo-placeholder">
+        <div class="ph-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#C8E600" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <div class="ph-label">Kelas Reguler</div>
+      </div>
+      <div class="photo-overlay"><h3>Gym Class</h3></div>
+    </div>
+    <!-- Bottom right 2 -->
+    <div class="photo-cell reveal reveal-delay-4">
+      <div class="photo-placeholder">
+        <div class="ph-icon">
+          <svg width="24" height="24" fill="none" viewBox="0 0 24 24" stroke="#C8E600" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+        </div>
+        <div class="ph-label">View Sawah &amp; Gunung</div>
+      </div>
+      <div class="photo-overlay"><h3>Scenic View</h3></div>
+    </div>
+  </div>
+
+  <div class="facility-tags reveal">
+    <span class="facility-tag active">Gym Area</span>
+    <span class="facility-tag">Cardio Area</span>
+    <span class="facility-tag">Kelas Reguler</span>
+    <span class="facility-tag">High Speed WiFi</span>
+    <span class="facility-tag">Free Air Minum</span>
+    <span class="facility-tag">Mushola</span>
+    <span class="facility-tag">Kamar Mandi Terpisah</span>
+    <span class="facility-tag">Loker</span>
+    <span class="facility-tag">Parkir Gratis</span>
+    <span class="facility-tag">View Sawah & Gunung</span>
+  </div>
+</section>
+
+<!-- HOURS STRIP -->
+<div class="hours-strip">
+  <div class="hours-label">Jam Operasional</div>
+  <div class="hours-item">
+    <div class="hours-day">Senin – Jumat</div>
+    <div class="hours-time">06:00 – 22:00</div>
+  </div>
+  <div class="hours-sep"></div>
+  <div class="hours-item">
+    <div class="hours-day">Sabtu – Minggu</div>
+    <div class="hours-time">06:00 – 21:00</div>
+  </div>
+</div>
+
+<!-- TRAINER -->
+<section id="trainer">
+  <div class="section-tag reveal">Tim Trainer</div>
+  <h2 class="section-title reveal reveal-delay-1">EXPERT<br><span class="outline">COACHES</span></h2>
+
+  <div class="trainers-grid">
+    <!-- Coach Basuki -->
+    <div class="trainer-card reveal reveal-delay-1">
+      <div class="trainer-photo">
+        <div class="trainer-photo-placeholder">
+          <div class="trainer-initial">B</div>
+        </div>
+        <div class="trainer-badge">Coach</div>
+      </div>
+      <div class="trainer-info">
+        <div class="trainer-name">Basuki</div>
+        <div class="trainer-role">Personal Trainer · Weight Lifting</div>
+        <div class="trainer-specs">
+          <div class="trainer-spec">
+            <div class="spec-icon">◆</div>
+            Weight Lifting & Body Building Specialist
+          </div>
+          <div class="trainer-spec">
+            <div class="spec-icon">◆</div>
+            Personalized Training Program
+          </div>
+          <div class="trainer-spec">
+            <div class="spec-icon">◆</div>
+            5 Tahun Pengalaman sebagai Personal Trainer
+          </div>
+        </div>
+        <div class="trainer-achievements">
+          <span class="achievement-pill">Ragavaganza 2024 Champion</span>
+          <span class="achievement-pill">5 Years Exp</span>
+          <span class="achievement-pill">Bodybuilding</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Coach Mario -->
+    <div class="trainer-card reveal reveal-delay-2">
+      <div class="trainer-photo">
+        <div class="trainer-photo-placeholder">
+          <div class="trainer-initial">M</div>
+        </div>
+        <div class="trainer-badge">Coach</div>
+      </div>
+      <div class="trainer-info">
+        <div class="trainer-name">Mario</div>
+        <div class="trainer-role">Senior Trainer · Functional Training</div>
+        <div class="trainer-specs">
+          <div class="trainer-spec">
+            <div class="spec-icon">◆</div>
+            Complex & Functional Training Specialist
+          </div>
+          <div class="trainer-spec">
+            <div class="spec-icon">◆</div>
+            Body Recomposition & Wellness
+          </div>
+          <div class="trainer-spec">
+            <div class="spec-icon">◆</div>
+            10+ Tahun Pengalaman · 500+ Klien
+          </div>
+        </div>
+        <div class="trainer-achievements">
+          <span class="achievement-pill">10+ Years Exp</span>
+          <span class="achievement-pill">500+ Clients</span>
+          <span class="achievement-pill">Functional</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICELIST -->
+<section id="pricelist">
+  <div class="section-tag reveal">Harga Member</div>
+  <h2 class="section-title reveal reveal-delay-1">PRICE<br><span class="outline">LIST</span></h2>
+
+  <div class="pricing-tabs">
+    <button class="tab-btn active" onclick="switchTab('umum', this)">Member Umum</button>
+    <button class="tab-btn" onclick="switchTab('pelajar', this)">Pelajar / Mahasiswa</button>
+    <button class="tab-btn" onclick="switchTab('pt', this)">Personal Trainer</button>
+  </div>
+
+  <!-- TAB: UMUM -->
+  <div class="tab-panel active" id="tab-umum">
+    <div class="promo-banner reveal">
+      <div>
+        <div class="promo-banner-label">🔥 Promo Spesial New Skyfit</div>
+        <div class="promo-banner-title">Paket Hemat:<br>Member 1 Bulan + PT 1×</div>
+      </div>
+      <div class="promo-banner-price">
+        <div class="big">Rp 200k</div>
+        <div class="save">Hemat Rp 45.000 dari harga normal</div>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-type">Harian / Visit</div>
+        <div class="price-amount"><span class="currency">Rp</span> 30k</div>
+        <div class="price-per">per kunjungan</div>
+        <div class="price-desc">Akses Gym & Cardio 1x kunjungan</div>
+      </div>
+      <div class="price-card reveal reveal-delay-1">
+        <div class="price-type">Mingguan / 7 Hari</div>
+        <div class="price-amount"><span class="currency">Rp</span> 80k</div>
+        <div class="price-per">per 7 hari</div>
+        <div class="price-desc">Akses Gym & Cardio aktif 7 hari</div>
+      </div>
+      <div class="price-card reveal reveal-delay-2">
+        <div class="price-type">Member 1 Bulan</div>
+        <div class="price-amount"><span class="currency">Rp</span> 145k</div>
+        <div class="price-per">per orang + Rp 20k daftar</div>
+        <div class="price-desc">Akses Gym & Cardio sepuasnya</div>
+      </div>
+      <div class="price-card featured reveal reveal-delay-3">
+        <div class="featured-badge">Best Deal</div>
+        <div class="price-type">Member 3 Bulan</div>
+        <div class="price-amount"><span class="currency">Rp</span> 360k</div>
+        <div class="price-per">per orang</div>
+        <div class="price-savings">Hemat Rp 75.000</div>
+      </div>
+      <div class="price-card reveal reveal-delay-4">
+        <div class="price-type">Member 6 Bulan</div>
+        <div class="price-amount"><span class="currency">Rp</span> 690k</div>
+        <div class="price-per">per orang</div>
+        <div class="price-savings">Hemat Rp 180.000</div>
+      </div>
+      <div class="price-card reveal">
+        <div class="price-type">Member 12 Bulan</div>
+        <div class="price-amount"><span class="currency">Rp</span> 1.2jt</div>
+        <div class="price-per">per orang</div>
+        <div class="price-savings">Hemat Rp 540.000</div>
+      </div>
+      <div class="price-card reveal reveal-delay-1">
+        <div class="price-type">Paket Couple</div>
+        <div class="price-amount"><span class="currency">Rp</span> 260k</div>
+        <div class="price-per">untuk 2 orang</div>
+        <div class="price-savings">Hemat Rp 30.000</div>
+        <div class="price-desc">Pria + Wanita</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PELAJAR -->
+  <div class="tab-panel" id="tab-pelajar">
+    <div class="promo-banner reveal">
+      <div>
+        <div class="promo-banner-label">🎓 Khusus Pelajar / Mahasiswa</div>
+        <div class="promo-banner-title">Wajib menunjukkan Kartu Pelajar<br><span style="font-size:18px;font-weight:400;color:var(--muted);">Maks. Pelajar 18th · Mahasiswa 22th</span></div>
+      </div>
+    </div>
+
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-type">Harian / Visit</div>
+        <div class="price-amount"><span class="currency">Rp</span> 30k</div>
+        <div class="price-per">per kunjungan</div>
+      </div>
+      <div class="price-card reveal reveal-delay-1">
+        <div class="price-type">Mingguan / 7 Hari</div>
+        <div class="price-amount"><span class="currency">Rp</span> 80k</div>
+        <div class="price-per">per 7 hari</div>
+      </div>
+      <div class="price-card reveal reveal-delay-2">
+        <div class="price-type">Member 1 Bulan</div>
+        <div class="price-amount"><span class="currency">Rp</span> 120k</div>
+        <div class="price-per">per orang + Rp 20k daftar</div>
+      </div>
+      <div class="price-card featured reveal reveal-delay-3">
+        <div class="featured-badge">Best Deal</div>
+        <div class="price-type">Member 3 Bulan</div>
+        <div class="price-amount"><span class="currency">Rp</span> 320k</div>
+        <div class="price-per">per orang</div>
+        <div class="price-savings">Hemat Rp 40.000</div>
+      </div>
+      <div class="price-card reveal reveal-delay-4">
+        <div class="price-type">Member 6 Bulan</div>
+        <div class="price-amount"><span class="currency">Rp</span> 600k</div>
+        <div class="price-per">per orang</div>
+        <div class="price-savings">Hemat Rp 120.000</div>
+      </div>
+      <div class="price-card reveal">
+        <div class="price-type">Member 12 Bulan</div>
+        <div class="price-amount"><span class="currency">Rp</span> 999k</div>
+        <div class="price-per">per orang</div>
+        <div class="price-savings">Hemat Rp 441.000</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAB: PT -->
+  <div class="tab-panel" id="tab-pt">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-bottom:28px;" class="reveal">
+      <div style="background:rgba(200,230,0,0.05);border:1px solid rgba(200,230,0,0.2);border-radius:8px;padding:20px 24px;">
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:8px;">Coach</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;text-transform:uppercase;">Coach Basuki</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">Ragavaganza Champion 2024</div>
+      </div>
+      <div style="background:rgba(200,230,0,0.05);border:1px solid rgba(200,230,0,0.2);border-radius:8px;padding:20px 24px;">
+        <div style="font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--lime);margin-bottom:8px;">Coach</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:28px;font-weight:800;text-transform:uppercase;">Coach Mario</div>
+        <div style="font-size:12px;color:var(--muted);margin-top:4px;">10+ Years · 500+ Clients</div>
+      </div>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-type">PT 1× Privat</div>
+        <div class="price-amount"><span class="currency">Rp</span> 100k</div>
+        <div class="price-per">per orang</div>
+      </div>
+      <div class="price-card reveal reveal-delay-1">
+        <div class="price-type">PT 1× Couple</div>
+        <div class="price-amount"><span class="currency">Rp</span> 180k</div>
+        <div class="price-per">untuk 2 orang</div>
+      </div>
+      <div class="price-card reveal reveal-delay-2">
+        <div class="price-type">PT 3× Privat</div>
+        <div class="price-amount"><span class="currency">Rp</span> 260k</div>
+        <div class="price-per">per orang</div>
+        <div class="price-savings">Hemat Rp 40.000</div>
+      </div>
+      <div class="price-card reveal reveal-delay-3">
+        <div class="price-type">PT 3× Couple</div>
+        <div class="price-amount"><span class="currency">Rp</span> 450k</div>
+        <div class="price-per">untuk 2 orang</div>
+        <div class="price-savings">Hemat Rp 90.000</div>
+      </div>
+      <div class="price-card featured reveal reveal-delay-4">
+        <div class="featured-badge">Popular</div>
+        <div class="price-type">PT 6× Privat</div>
+        <div class="price-amount"><span class="currency">Rp</span> 500k</div>
+        <div class="price-per">per orang</div>
+        <div class="price-savings">Hemat Rp 100.000</div>
+      </div>
+      <div class="price-card reveal">
+        <div class="price-type">PT 6× Couple</div>
+        <div class="price-amount"><span class="currency">Rp</span> 850k</div>
+        <div class="price-per">untuk 2 orang</div>
+        <div class="price-savings">Hemat Rp 230.000</div>
+      </div>
+      <div class="price-card reveal reveal-delay-1">
+        <div class="price-type">PT 12× Privat</div>
+        <div class="price-amount"><span class="currency">Rp</span> 950k</div>
+        <div class="price-per">per orang</div>
+        <div class="price-savings">Hemat Rp 250.000</div>
+      </div>
+      <div class="price-card featured reveal reveal-delay-2">
+        <div class="featured-badge">Best Value</div>
+        <div class="price-type">PT 12× Couple</div>
+        <div class="price-amount"><span class="currency">Rp</span> 1.55jt</div>
+        <div class="price-per">untuk 2 orang</div>
+        <div class="price-savings">Hemat Rp 610.000</div>
+      </div>
+    </div>
+    <div style="margin-top:28px;padding:20px;border:1px solid var(--border);border-radius:6px;background:var(--card);" class="reveal">
+      <div style="font-size:11px;letter-spacing:2px;color:var(--lime);text-transform:uppercase;margin-bottom:8px;">Kelas Skyfit — Coming Soon April</div>
+      <div style="font-size:15px;color:var(--muted);">Functional Training · Yoga & Meditation · Body Pump · dan banyak lagi.</div>
+    </div>
+  </div>
+</section>
+
+<!-- KONTAK -->
+<section id="kontak">
+  <div class="contact-grid">
+    <div>
+      <div class="section-tag reveal">Temukan Kami</div>
+      <h2 class="contact-title reveal reveal-delay-1">
+        MULAI<br>JOURNEY<br><span class="lime">MU HARI INI</span>
+      </h2>
+      <p class="contact-desc reveal reveal-delay-2">
+        Bergabunglah dengan ratusan member Skyfit Gym Patikraja. Daftar sekarang dan mulai perjalanan fitnessmu bersama trainer berpengalaman kami.
+      </p>
+      <div class="address-block reveal reveal-delay-3">
+        <div class="adr-label">Alamat</div>
+        <div class="adr-text">
+          Jl. Raya Kedungrandu<br>
+          (Utara Sicepat Patikraja)<br>
+          Patikraja, Banyumas, Jawa Tengah 53171
+          <br>
+          <a href="https://maps.app.goo.gl/arKy5NKTJhsZHUAAA" target="_blank">
+            Buka di Google Maps →
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-links reveal reveal-delay-2">
+      <!-- WhatsApp -->
+      <a href="https://wa.me/6288200862953" target="_blank" class="contact-link">
+        <div class="contact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z" fill="currentColor"/>
+            <path d="M12 2C6.48 2 2 6.48 2 12c0 1.85.5 3.58 1.37 5.07L2 22l5.05-1.33A9.93 9.93 0 0012 22c5.52 0 10-4.48 10-10S17.52 2 12 2zm0 18c-1.66 0-3.21-.47-4.53-1.28l-.32-.19-3 .79.81-2.93-.21-.34A7.94 7.94 0 014 12c0-4.41 3.59-8 8-8s8 3.59 8 8-3.59 8-8 8z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <div class="contact-info-label">WhatsApp Admin</div>
+          <div class="contact-info-value">0882-0086-29530</div>
+        </div>
+      </a>
+
+      <!-- Instagram -->
+      <a href="https://instagram.com/skyfitofc" target="_blank" class="contact-link">
+        <div class="contact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <rect x="2" y="2" width="20" height="20" rx="5" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="12" cy="12" r="4.5" stroke="currentColor" stroke-width="1.8"/>
+            <circle cx="17.5" cy="6.5" r="1" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <div class="contact-info-label">Instagram</div>
+          <div class="contact-info-value">@skyfitofc</div>
+        </div>
+      </a>
+
+      <!-- Location -->
+      <a href="https://maps.app.goo.gl/arKy5NKTJhsZHUAAA" target="_blank" class="contact-link">
+        <div class="contact-icon">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z" fill="currentColor"/>
+          </svg>
+        </div>
+        <div>
+          <div class="contact-info-label">Lokasi Google Maps</div>
+          <div class="contact-info-value">Patikraja, Banyumas</div>
+        </div>
+      </a>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-brand">SKY<span>FIT</span> GYM</div>
+    <div class="footer-tagline">Fitness · Cardio · Gym Class</div>
+    <div class="footer-copy">© 2025 Skyfit Gym Patikraja. All rights reserved.</div>
+  </footer>
+</section>
+
+<script>
+  // Navbar scroll effect
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Trigger hero reveals immediately
+  document.querySelectorAll('#hero .reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), 200 + i * 150);
+  });
+
+  // Facility tag interaction
+  document.querySelectorAll('.facility-tag').forEach(tag => {
+    tag.addEventListener('click', () => {
+      document.querySelectorAll('.facility-tag').forEach(t => t.classList.remove('active'));
+      tag.classList.add('active');
+    });
+  });
+
+  // Tab switching
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('tab-' + tabId).classList.add('active');
+    // Re-trigger reveals in the new tab
+    document.querySelectorAll('#tab-' + tabId + ' .reveal').forEach(el => {
+      el.classList.remove('visible');
+      setTimeout(() => observer.observe(el), 10);
+    });
+  }
+</script>
+</body>
+</html>
