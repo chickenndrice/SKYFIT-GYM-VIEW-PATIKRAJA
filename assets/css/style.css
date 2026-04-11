@@ -60,7 +60,7 @@
   .hero-glow { position: absolute; top: -20%; right: -10%; width: 60vw; height: 80vh; background: radial-gradient(ellipse, rgba(200,230,0,0.08) 0%, transparent 70%); pointer-events: none; }
   .hero-tag { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--lime); font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 2; }
   .hero-tag::before { content: ''; width: 40px; height: 1px; background: var(--lime); }
-  .hero-headline { font-family: 'Bebas Neue', sans-serif; font-size: clamp(70px, 12vw, 160px); line-height: 0.88; position: relative; z-index: 2; }
+  .hero-headline { font-family: 'Bebas Neue', sans-serif; font-size: clamp(70px, 12vw, 160px); line-height: 0.88; position: relative; z-index: 2; margin-top: auto; padding-top: 80px; }
   .hero-headline .outline { -webkit-text-stroke: 1.5px var(--white); color: transparent; }
   .hero-headline .accent { color: var(--lime); }
   .hero-sub { font-size: 15px; color: var(--muted); max-width: 420px; line-height: 1.7; margin: 28px 0 40px; position: relative; z-index: 2; }
@@ -75,10 +75,47 @@
   .hero-stat { text-align: right; }
   .hero-stat .num { font-family: 'Barlow Condensed', sans-serif; font-size: 44px; font-weight: 800; color: var(--lime); line-height: 1; }
   .hero-stat .label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
-  .scroll-indicator { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); z-index: 2; display: flex; flex-direction: column; align-items: center; gap: 8px; animation: bounce 2s ease-in-out infinite; }
-  .scroll-indicator span { font-size: 10px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; }
-  .scroll-line { width: 1px; height: 40px; background: linear-gradient(to bottom, var(--lime), transparent); }
-  @keyframes bounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(8px); } }
+
+  /* ── CLASS SCHEDULE ── */
+  #jadwal { background: var(--card); }
+  .schedule-wrap { overflow-x: auto; margin-top: 48px; }
+  .schedule-table {
+    width: 100%; border-collapse: collapse; min-width: 640px;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  .schedule-table th {
+    background: var(--lime); color: var(--black);
+    font-size: 14px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    padding: 12px 10px; text-align: center;
+  }
+  .schedule-table .time-col {
+    background: rgba(200,230,0,0.08); color: var(--lime);
+    font-size: 13px; font-weight: 700; letter-spacing: 1px;
+    padding: 14px 10px; text-align: center; border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .schedule-table td {
+    padding: 14px 10px; text-align: center;
+    border: 1px solid var(--border); font-size: 13px; font-weight: 600;
+    letter-spacing: 0.5px; text-transform: uppercase; color: var(--white);
+    min-width: 90px;
+  }
+  .schedule-table td.empty { background: rgba(255,255,255,0.02); }
+  .schedule-table td.vip-class { color: #ff6b6b; }
+  .schedule-rules {
+    margin-top: 32px; padding: 24px 28px;
+    background: var(--black); border: 1px solid var(--border); border-radius: 6px;
+  }
+  .schedule-rules-title {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .schedule-rules-title::before { content: ''; width: 20px; height: 1px; background: var(--lime); }
+  .schedule-rules ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .schedule-rules li {
+    font-size: 13px; color: var(--muted); padding-left: 18px; position: relative; line-height: 1.6;
+  }
+  .schedule-rules li::before { content: '◆'; position: absolute; left: 0; color: var(--lime); font-size: 9px; top: 3px; }
 
   /* ── SHARED ── */
   section { padding: 100px 5vw; }
