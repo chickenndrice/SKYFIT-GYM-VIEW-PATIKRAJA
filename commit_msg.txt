@@ -1,6 +1,0 @@
-Add comprehensive mobile optimizations and interaction fixes
-- Fully expand responsive layouts across hero sections, training area photo grid stacked on mobile, and trainers grid components in CSS.
-- Switch mobile schedule table to horizontal scroll, disabling 16:9 ratio locks.
-- Append pricing tabs scroll fade mask indicator with associated JavaScript detection logic (.at-end toggling).
-- Update JavaScript overlay behavior to ignore hover timeout sequences on mobile devices.
-- Refine brand logo strings targeting and bump footer copyright to 2026.
