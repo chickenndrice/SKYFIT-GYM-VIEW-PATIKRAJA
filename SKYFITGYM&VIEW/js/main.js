@@ -226,7 +226,10 @@ document.querySelectorAll('.schedule-table tbody tr').forEach((row, rowIdx) => {
     if (!rawText) return;
     const day = dayNames[colIdx] || '';
 
+    const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
     cell.addEventListener('mouseenter', () => {
+      if (isMobile()) return;   // mobile uses click, not hover
       // 1 second delay before showing overlay
       hoverTimeout = setTimeout(() => {
         const key  = Object.keys(kelasData).find(k => rawText.toLowerCase().includes(k.toLowerCase())) || rawText;
@@ -236,14 +239,24 @@ document.querySelectorAll('.schedule-table tbody tr').forEach((row, rowIdx) => {
     });
 
     cell.addEventListener('mouseleave', () => {
+      if (isMobile()) return;
       // Cancel if mouse leaves before 1 second
       if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
+    });
+
+    // Click = instant open (both mobile tap and desktop click)
+    cell.addEventListener('click', () => {
+      if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
+      const key  = Object.keys(kelasData).find(k => rawText.toLowerCase().includes(k.toLowerCase())) || rawText;
+      const data = kelasData[key] || { photos: ['','',''], video: '' };
+      openOverlay(key, day, time, data);
     });
   });
 });
 
-// Close overlay when mouse leaves the entire stage area
+// Close overlay when mouse leaves the entire stage area (desktop only)
 stage.addEventListener('mouseleave', (e) => {
+  if (window.matchMedia('(max-width: 768px)').matches) return;
   if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
   if (!overlay.contains(e.relatedTarget)) closeOverlay();
 });
@@ -268,8 +281,19 @@ function openKelasVideoModal(className, videoSrc) {
       </div>`;
   }
 
-  modal.classList.add('open');
+    modal.classList.add('open');
   document.body.style.overflow = 'hidden';
+}
+
+// Pricing tabs scroll fade indicator
+const pricingTabs = document.querySelector('.pricing-tabs');
+if (pricingTabs) {
+  const checkTabsScroll = () => {
+    const atEnd = pricingTabs.scrollLeft + pricingTabs.clientWidth >= pricingTabs.scrollWidth - 4;
+    pricingTabs.classList.toggle('at-end', atEnd);
+  };
+  pricingTabs.addEventListener('scroll', checkTabsScroll, { passive: true });
+  checkTabsScroll();
 }
 
 document.addEventListener('keydown', (e) => {

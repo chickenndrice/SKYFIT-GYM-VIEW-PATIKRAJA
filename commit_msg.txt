@@ -1,5 +1,6 @@
-Update fitur jadwal (v7): aspect ratio & delay
-
-- 16:9 true aspect ratio: Overlay tidak lagi di-constrain oleh tinggi tabel, diposisikan vertikal-center sehingga bebas overflow. .sov-inner sekarang menggunakan aspect ratio 16/9 penuh.
-- Nama kelas dengan spasi: Memperbaiki format nama kelas (misal "Body Combat", "Fit Boxing") dengan mengganti cell.textContent jadi cell.innerText agar line break dirender sebagai spasi.
-- Delay 1 detik: Menambahkan hover timeout 1 detik. Jika mouse keluar sebelum 1 detik atau pindah dari area tabel, overlay batal muncul.
+Add comprehensive mobile optimizations and interaction fixes
+- Fully expand responsive layouts across hero sections, training area photo grid stacked on mobile, and trainers grid components in CSS.
+- Switch mobile schedule table to horizontal scroll, disabling 16:9 ratio locks.
+- Append pricing tabs scroll fade mask indicator with associated JavaScript detection logic (.at-end toggling).
+- Update JavaScript overlay behavior to ignore hover timeout sequences on mobile devices.
+- Refine brand logo strings targeting and bump footer copyright to 2026.
