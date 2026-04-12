@@ -1,0 +1,277 @@
+// Navbar scroll
+const navbar = document.getElementById('navbar');
+window.addEventListener('scroll', () => {
+  navbar.classList.toggle('scrolled', window.scrollY > 60);
+});
+
+// Scroll reveal
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+document.querySelectorAll('#hero .reveal').forEach((el, i) => {
+  setTimeout(() => el.classList.add('visible'), 200 + i * 150);
+});
+
+// Photo swap
+function swapWithMain(thumbCell) {
+  const mainCell = document.getElementById('mainCell');
+  const mainPH  = mainCell.querySelector('.photo-placeholder').cloneNode(true);
+  const mainOV  = mainCell.querySelector('.photo-overlay').cloneNode(true);
+  const thumbPH = thumbCell.querySelector('.photo-placeholder').cloneNode(true);
+  const thumbOV = thumbCell.querySelector('.photo-overlay').cloneNode(true);
+  mainCell.style.opacity = '0';
+  mainCell.style.transform = 'scale(0.97)';
+  setTimeout(() => {
+    mainCell.querySelector('.photo-placeholder').replaceWith(thumbPH);
+    mainCell.querySelector('.photo-overlay').replaceWith(thumbOV);
+    thumbCell.querySelector('.photo-placeholder').replaceWith(mainPH);
+    thumbCell.querySelector('.photo-overlay').replaceWith(mainOV);
+    mainCell.style.opacity = '1';
+    mainCell.style.transform = 'scale(1)';
+  }, 200);
+}
+
+// Tab switching
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const panel = document.getElementById('tab-' + tabId);
+  panel.classList.add('active');
+  panel.querySelectorAll('.reveal').forEach(el => {
+    el.classList.remove('visible');
+    setTimeout(() => observer.observe(el), 10);
+  });
+}
+
+// ── VIDEO INTRO MODAL ──
+// Trainer video config — ganti nilai `src` dengan path video lokal setelah aset tersedia.
+// Contoh: src: 'video/basuki-intro.mp4'
+const trainerVideos = {
+  basuki: {
+    name: 'Coach Basuki',
+    src: 'video/Coach_Basuki_Intro.mp4'
+  },
+  mario: {
+    name: 'Coach Mario',
+    src: 'video/Coach_Mario_Intro.mp4'
+  }
+};
+
+function openVideoModal(coachId) {
+  const config = trainerVideos[coachId];
+  const modal  = document.getElementById('videoModal');
+  const title  = document.getElementById('videoModalTitle');
+  const body   = document.getElementById('videoModalBody');
+
+  title.textContent = 'Video Perkenalan — ' + config.name;
+
+  if (config.src) {
+    body.innerHTML = `<video controls autoplay playsinline src="${config.src}"></video>`;
+  } else {
+    body.innerHTML = `
+      <div class="video-modal-placeholder">
+        <p style="font-size:16px;color:var(--white);margin-bottom:12px;">Video belum tersedia</p>
+        <p>Untuk menampilkan video perkenalan <strong>${config.name}</strong>, masukkan path file video ke dalam kode:<br><br>
+        <code>trainerVideos.${coachId}.src = 'nama-file-video.mp4'</code><br><br>
+        Letakkan file video di folder yang sama dengan file HTML ini.</p>
+      </div>`;
+  }
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeVideoModal() {
+  const modal = document.getElementById('videoModal');
+  modal.classList.remove('open');
+  document.body.style.overflow = '';
+  // Stop video playback
+  const video = modal.querySelector('video');
+  if (video) { video.pause(); video.src = ''; }
+}
+
+function closeVideoModalOnBackdrop(e) {
+  if (e.target === document.getElementById('videoModal')) closeVideoModal();
+}
+
+// ── SCHEDULE HOVER OVERLAY ──
+// Data: kelas name → { photos[], video }
+// Photos: array of 3 image paths (leave empty string '' if not yet available)
+// Video: path to class documentation video
+const kelasData = {
+  'Yoga':              { photos: ['','',''], video: '' },
+  'Functional Training': { photos: ['','',''], video: '' },
+  'Fit Elderly':       { photos: ['','',''], video: '' },
+  'Aerobik':           { photos: ['','',''], video: '' },
+  'Fit Kid':           { photos: ['','',''], video: '' },
+  'Body Combat':       { photos: ['','',''], video: '' },
+  'Body Pump':         { photos: ['','',''], video: '' },
+  'Full Body HIIT':    { photos: ['','',''], video: '' },
+  'Fit Boxing':        { photos: ['','',''], video: '' },
+  'Agility':           { photos: ['','',''], video: '' },
+};
+
+// Placeholder gradient backgrounds per slide when no photo
+const placeholderBg = [
+  'linear-gradient(135deg, #0f1a00 0%, #1a2a00 50%, #080808 100%)',
+  'linear-gradient(135deg, #0a0a0a 0%, #151a00 50%, #0f1500 100%)',
+  'linear-gradient(135deg, #080808 0%, #0d1700 50%, #080808 100%)',
+];
+
+let sovSlideInterval = null;
+let sovCurrentSlide  = 0;
+let sovTotalSlides   = 3;
+let sovActiveKey     = null;
+let hoverTimeout     = null;
+
+const overlay    = document.getElementById('scheduleOverlay');
+const sovSlides  = document.getElementById('sovSlides');
+const sovDots    = document.getElementById('sovDots');
+const sovName    = document.getElementById('sovClassName');
+const sovBadge   = document.getElementById('sovTimeBadge');
+const sovVidBtn  = document.getElementById('sovVideoBtn');
+const sovClose   = document.getElementById('sovClose');
+const stage      = document.getElementById('scheduleStage');
+
+function buildSlides(photos) {
+  sovSlides.innerHTML = '';
+  sovDots.innerHTML   = '';
+  sovTotalSlides = photos.length;
+
+  photos.forEach((src, i) => {
+    const slide = document.createElement('div');
+    if (src) {
+      slide.className = 'sov-slide' + (i === 0 ? ' active' : '');
+      slide.style.backgroundImage = `url('${src}')`;
+    } else {
+      slide.className = 'sov-slide-placeholder' + (i === 0 ? ' active' : '');
+      slide.style.background = placeholderBg[i] || placeholderBg[0];
+      slide.innerHTML = `<div class="ph-num">${String(i+1).padStart(2,'0')}</div>
+                         <div class="ph-txt">Foto Dokumentasi ${i+1}</div>`;
+    }
+    sovSlides.appendChild(slide);
+
+    const dot = document.createElement('div');
+    dot.className = 'sov-dot' + (i === 0 ? ' active' : '');
+    sovDots.appendChild(dot);
+  });
+}
+
+function goToSlide(idx) {
+  const slides = sovSlides.querySelectorAll('.sov-slide, .sov-slide-placeholder');
+  const dots   = sovDots.querySelectorAll('.sov-dot');
+  slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+  dots.forEach((d, i)   => d.classList.toggle('active', i === idx));
+  sovCurrentSlide = idx;
+}
+
+function startSlideshow() {
+  stopSlideshow();
+  sovSlideInterval = setInterval(() => {
+    const next = (sovCurrentSlide + 1) % sovTotalSlides;
+    goToSlide(next);
+  }, 1000);
+}
+
+function stopSlideshow() {
+  if (sovSlideInterval) { clearInterval(sovSlideInterval); sovSlideInterval = null; }
+}
+
+function openOverlay(className, dayLabel, timeLabel, data) {
+  sovActiveKey = className;
+  sovCurrentSlide = 0;
+
+  sovName.textContent  = className;
+  sovBadge.textContent = dayLabel + ' · ' + timeLabel;
+
+  buildSlides(data.photos);
+
+  // Wire video button
+  sovVidBtn.onclick = () => {
+    closeOverlay();
+    openKelasVideoModal(className, data.video);
+  };
+
+  overlay.classList.add('active');
+  startSlideshow();
+}
+
+function closeOverlay() {
+  if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
+  overlay.classList.remove('active');
+  stopSlideshow();
+  sovActiveKey = null;
+}
+
+// Close on X button
+sovClose.addEventListener('click', (e) => { e.stopPropagation(); closeOverlay(); });
+
+// Close when clicking the dark backdrop (outside sov-inner)
+overlay.addEventListener('click', (e) => {
+  if (!e.target.closest('.sov-inner')) closeOverlay();
+});
+
+// Attach hover listeners to non-empty schedule cells
+const dayNames  = ['SEN','SEL','RAB','KAM','JUM','SAB','MIN'];
+const timeRows  = { 0:'08:00', 1:'09:00', 2:'15:30', 3:'16:45', 4:'19:00' };
+
+document.querySelectorAll('.schedule-table tbody tr').forEach((row, rowIdx) => {
+  const time = timeRows[rowIdx] || '';
+  row.querySelectorAll('td:not(.time-col)').forEach((cell, colIdx) => {
+    if (cell.classList.contains('empty')) return;
+    // Use innerText so <br> tags become spaces/newlines → collapse to single space
+    const rawText = (cell.innerText || cell.textContent).trim().replace(/[\s\n]+/g, ' ');
+    if (!rawText) return;
+    const day = dayNames[colIdx] || '';
+
+    cell.addEventListener('mouseenter', () => {
+      // 1 second delay before showing overlay
+      hoverTimeout = setTimeout(() => {
+        const key  = Object.keys(kelasData).find(k => rawText.toLowerCase().includes(k.toLowerCase())) || rawText;
+        const data = kelasData[key] || { photos: ['','',''], video: '' };
+        openOverlay(key, day, time, data);
+      }, 1000);
+    });
+
+    cell.addEventListener('mouseleave', () => {
+      // Cancel if mouse leaves before 1 second
+      if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
+    });
+  });
+});
+
+// Close overlay when mouse leaves the entire stage area
+stage.addEventListener('mouseleave', (e) => {
+  if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
+  if (!overlay.contains(e.relatedTarget)) closeOverlay();
+});
+
+// Kelas video modal (separate from trainer modal)
+function openKelasVideoModal(className, videoSrc) {
+  const modal = document.getElementById('videoModal');
+  const title = document.getElementById('videoModalTitle');
+  const body  = document.getElementById('videoModalBody');
+
+  title.textContent = 'Dokumentasi Kelas — ' + className;
+
+  if (videoSrc) {
+    body.innerHTML = `<video controls autoplay playsinline src="${videoSrc}" style="width:100%;display:block;background:#000;max-height:70vh;"></video>`;
+  } else {
+    body.innerHTML = `
+      <div class="video-modal-placeholder">
+        <p style="font-size:16px;color:var(--white);margin-bottom:12px;">Video belum tersedia</p>
+        <p>Tambahkan path video dokumentasi kelas <strong>${className}</strong> ke dalam kode:<br><br>
+        <code>kelasData['${className}'].video = 'video/nama-file.mp4'</code><br><br>
+        Foto kelas bisa ditambahkan di: <code>kelasData['${className}'].photos</code></p>
+      </div>`;
+  }
+
+  modal.classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+document.addEventListener('keydown', (e) => {
+  if (e.key === 'Escape') { closeVideoModal(); closeOverlay(); }
+});

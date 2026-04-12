@@ -1,0 +1,5 @@
+Update fitur jadwal (v7): aspect ratio & delay
+
+- 16:9 true aspect ratio: Overlay tidak lagi di-constrain oleh tinggi tabel, diposisikan vertikal-center sehingga bebas overflow. .sov-inner sekarang menggunakan aspect ratio 16/9 penuh.
+- Nama kelas dengan spasi: Memperbaiki format nama kelas (misal "Body Combat", "Fit Boxing") dengan mengganti cell.textContent jadi cell.innerText agar line break dirender sebagai spasi.
+- Delay 1 detik: Menambahkan hover timeout 1 detik. Jika mouse keluar sebelum 1 detik atau pindah dari area tabel, overlay batal muncul.
