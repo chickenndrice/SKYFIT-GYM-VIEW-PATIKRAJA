@@ -5,7 +5,688 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Skyfit Gym Patikraja — Fitness · Cardio · Gym Class</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/style.css">
+<style>
+  :root {
+    --lime: #C8E600;
+    --black: #080808;
+    --card: #111111;
+    --card2: #171717;
+    --border: #2a2a2a;
+    --muted: #888888;
+    --white: #f5f5f5;
+    --gray: #3a3a3a;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+  body { background: var(--black); color: var(--white); font-family: 'Outfit', sans-serif; overflow-x: hidden; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: var(--black); }
+  ::-webkit-scrollbar-thumb { background: var(--lime); border-radius: 2px; }
+
+  /* ── NAVBAR fix: grid layout prevents logo/content overlap ── */
+  nav {
+    position: fixed; top: 0; width: 100%; z-index: 100;
+    height: 64px; padding: 0 5vw;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center; gap: 16px;
+    background: transparent;
+    transition: background 0.4s, backdrop-filter 0.4s;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled { background: rgba(8,8,8,0.92); backdrop-filter: blur(16px); border-bottom-color: var(--border); }
+  .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 24px; letter-spacing: 3px; color: var(--white); white-space: nowrap; }
+  .nav-logo span { color: var(--lime); }
+  .nav-links { display: flex; list-style: none; justify-content: center; }
+  .nav-links a {
+    text-decoration: none; color: var(--muted);
+    font-size: 12px; font-weight: 500; letter-spacing: 1.5px; text-transform: uppercase;
+    padding: 0 18px; white-space: nowrap; transition: color 0.2s;
+  }
+  .nav-links a:hover { color: var(--lime); }
+  .nav-cta {
+    background: var(--lime); color: var(--black);
+    padding: 9px 20px; font-size: 11px; font-weight: 700; letter-spacing: 1.5px;
+    text-transform: uppercase; text-decoration: none; white-space: nowrap;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
+    transition: background 0.2s;
+  }
+  .nav-cta:hover { background: var(--white); }
+
+  /* ── HERO ── */
+  #hero {
+    min-height: 100vh; display: flex; flex-direction: column; justify-content: flex-end;
+    padding: 0 5vw 8vh; position: relative; overflow: hidden;
+  }
+  .hero-bg { position: absolute; inset: 0; background: linear-gradient(160deg, #0f1a00 0%, #080808 55%); }
+  .hero-hex {
+    position: absolute; inset: 0; opacity: 0.06;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='70'%3E%3Cpolygon points='30,2 58,17 58,53 30,68 2,53 2,17' fill='none' stroke='%23C8E600' stroke-width='1'/%3E%3C/svg%3E");
+    background-size: 60px 70px;
+  }
+  .hero-glow { position: absolute; top: -20%; right: -10%; width: 60vw; height: 80vh; background: radial-gradient(ellipse, rgba(200,230,0,0.08) 0%, transparent 70%); pointer-events: none; }
+  .hero-tag { font-size: 12px; letter-spacing: 4px; text-transform: uppercase; color: var(--lime); font-weight: 600; margin-bottom: 20px; display: flex; align-items: center; gap: 12px; position: relative; z-index: 2; }
+  .hero-tag::before { content: ''; width: 40px; height: 1px; background: var(--lime); }
+  .hero-headline { font-family: 'Bebas Neue', sans-serif; font-size: clamp(70px, 12vw, 160px); line-height: 0.88; position: relative; z-index: 2; margin-top: auto; padding-top: 80px; }
+  .hero-headline .outline { -webkit-text-stroke: 1.5px var(--white); color: transparent; }
+  .hero-headline .accent { color: var(--lime); }
+  .hero-sub { font-size: 15px; color: var(--muted); max-width: 420px; line-height: 1.7; margin: 28px 0 40px; position: relative; z-index: 2; }
+  .hero-actions { display: flex; gap: 16px; align-items: center; position: relative; z-index: 2; }
+  .btn-primary { background: var(--lime); color: var(--black); padding: 16px 36px; font-weight: 700; font-size: 13px; letter-spacing: 2px; text-transform: uppercase; text-decoration: none; clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 100%, 12px 100%); transition: background 0.2s; display: inline-block; }
+  .btn-primary:hover { background: var(--white); }
+  .btn-ghost { color: var(--white); font-size: 13px; font-weight: 500; letter-spacing: 1px; text-decoration: none; display: flex; align-items: center; gap: 10px; transition: color 0.2s; }
+  .btn-ghost:hover { color: var(--lime); }
+  .btn-ghost .arrow { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; font-size: 16px; transition: border-color 0.2s; }
+  .btn-ghost:hover .arrow { border-color: var(--lime); }
+  .hero-stats { position: absolute; right: 5vw; bottom: 8vh; display: flex; flex-direction: column; gap: 28px; z-index: 2; }
+  .hero-stat { text-align: right; }
+  .hero-stat .num { font-family: 'Barlow Condensed', sans-serif; font-size: 44px; font-weight: 800; color: var(--lime); line-height: 1; }
+  .hero-stat .label { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: var(--muted); margin-top: 2px; }
+
+  /* ── CLASS SCHEDULE ── */
+  #jadwal { background: var(--card); }
+  .schedule-wrap { overflow-x: auto; margin-top: 48px; min-width: 0; }
+  .schedule-table {
+    width: 100%; height: 100%;          /* fill the 16:9 stage */
+    border-collapse: collapse;
+    min-width: 0;                        /* remove old min-width */
+    table-layout: fixed;
+    font-family: 'Barlow Condensed', sans-serif;
+  }
+  .schedule-table th {
+    background: var(--lime); color: var(--black);
+    font-size: clamp(12px,1.2vw,18px); font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    padding: 0; height: 9%;             /* fixed header height */
+    text-align: center;
+  }
+  .schedule-table .time-col {
+    background: rgba(200,230,0,0.1); color: var(--lime);
+    font-size: clamp(12px,1.1vw,17px); font-weight: 700; letter-spacing: 1px;
+    padding: 0 12px; text-align: center; border: 1px solid var(--border);
+    white-space: nowrap;
+  }
+  .schedule-table td {
+    padding: 0 6px; text-align: center;
+    border: 1px solid var(--border);
+    font-size: clamp(11px,1.0vw,16px); font-weight: 700;
+    letter-spacing: 0.5px; text-transform: uppercase; color: var(--white);
+    vertical-align: middle; line-height: 1.3;
+  }
+  .schedule-table tbody tr { height: calc((100% - 9%) / 5); }
+  .schedule-table td.empty { background: rgba(255,255,255,0.02); }
+  .schedule-table td.vip-class { color: #ff6b6b; }
+  .schedule-rules {
+    margin-top: 32px; padding: 24px 28px;
+    background: var(--black); border: 1px solid var(--border); border-radius: 6px;
+  }
+  .schedule-rules-title {
+    font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 14px; display: flex; align-items: center; gap: 10px;
+  }
+  .schedule-rules-title::before { content: ''; width: 20px; height: 1px; background: var(--lime); }
+  .schedule-rules ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .schedule-rules li {
+    font-size: 13px; color: var(--muted); padding-left: 18px; position: relative; line-height: 1.6;
+  }
+  .schedule-rules li::before { content: '◆'; position: absolute; left: 0; color: var(--lime); font-size: 9px; top: 3px; }
+
+  /* ── SHARED ── */
+  section { padding: 100px 5vw; }
+  .section-tag { font-size: 11px; letter-spacing: 4px; text-transform: uppercase; color: var(--lime); font-weight: 600; margin-bottom: 16px; display: flex; align-items: center; gap: 12px; }
+  .section-tag::before { content: ''; width: 30px; height: 1px; background: var(--lime); }
+  .section-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(42px, 6vw, 80px); font-weight: 800; line-height: 0.92; text-transform: uppercase; letter-spacing: -1px; }
+  .section-title .outline { -webkit-text-stroke: 1.5px rgba(245,245,245,0.25); color: transparent; }
+  .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.7s ease, transform 0.7s ease; }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+  .reveal-delay-4 { transition-delay: 0.4s; }
+
+  /* ── TICKER ── */
+  .ticker-wrap { background: var(--lime); overflow: hidden; padding: 14px 0; display: flex; }
+  .ticker { display: flex; animation: ticker 20s linear infinite; white-space: nowrap; }
+  .ticker-item { font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700; text-transform: uppercase; color: var(--black); padding: 0 36px; letter-spacing: 2px; }
+  .ticker-dot { color: rgba(0,0,0,0.35); font-size: 20px; padding: 0 4px; }
+  @keyframes ticker { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+  /* ── FASILITAS ── */
+  #fasilitas { background: var(--black); }
+  .facilities-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 60px; flex-wrap: wrap; gap: 24px; }
+  .facilities-desc { max-width: 320px; color: var(--muted); line-height: 1.7; font-size: 15px; }
+
+  /* Photo grid: main cell left (tall), 4 thumbs right (2x2) */
+  .photo-grid { display: grid; grid-template-columns: 2fr 1fr 1fr; grid-template-rows: 260px 260px; gap: 12px; }
+  .photo-cell { background: var(--card2); border: 1px solid var(--border); border-radius: 4px; overflow: hidden; position: relative; cursor: pointer; transition: border-color 0.3s; }
+  .photo-cell.main-cell { grid-column: 1; grid-row: 1 / 3; transition: opacity 0.2s, transform 0.2s, border-color 0.3s; }
+  .photo-cell.main-cell:hover { border-color: var(--lime); }
+  .photo-cell.thumb-cell:hover { border-color: var(--lime); }
+  .photo-cell img { width: 100%; height: 100%; object-fit: cover; filter: brightness(0.75) saturate(0.8); transition: filter 0.4s, transform 0.5s; pointer-events: none; }
+  .photo-cell.main-cell:hover img { filter: brightness(0.9) saturate(1); }
+  .photo-cell.thumb-cell:hover img { filter: brightness(0.9) saturate(1); transform: scale(1.05); }
+  .photo-placeholder { width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 12px; background: linear-gradient(135deg, var(--card2), var(--card)); }
+  .ph-icon { width: 48px; height: 48px; opacity: 0.2; border: 2px solid var(--lime); border-radius: 4px; display: flex; align-items: center; justify-content: center; }
+  .ph-label { font-size: 11px; letter-spacing: 3px; color: var(--muted); text-transform: uppercase; text-align: center; padding: 0 20px; }
+  .photo-overlay { position: absolute; bottom: 0; left: 0; right: 0; padding: 20px; background: linear-gradient(to top, rgba(0,0,0,0.85), transparent); pointer-events: none; }
+  .photo-overlay h3 { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; letter-spacing: 1px; text-transform: uppercase; }
+  /* swap hint badge on thumbs */
+  .swap-hint { position: absolute; top: 8px; right: 8px; background: rgba(200,230,0,0.15); border: 1px solid rgba(200,230,0,0.4); color: var(--lime); font-size: 9px; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; opacity: 0; transition: opacity 0.2s; pointer-events: none; }
+  .photo-cell.thumb-cell:hover .swap-hint { opacity: 1; }
+
+  /* FIX #3: remove pill tags, replace with plain text */
+  .facility-extras { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--border); }
+  .facility-extras-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; display: flex; align-items: center; gap: 10px; }
+  .facility-extras-label::before { content: ''; width: 20px; height: 1px; background: var(--muted); }
+  .facility-extras-text { font-size: 14px; color: rgba(245,245,245,0.4); line-height: 1.9; font-weight: 400; }
+  .facility-extras-text strong { color: rgba(245,245,245,0.65); font-weight: 500; }
+
+  /* FIX #4: Hours strip — centered, label above schedule */
+  .hours-strip {
+    background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
+    padding: 36px 5vw;
+    display: flex; flex-direction: column; align-items: center; gap: 18px; text-align: center;
+  }
+  .hours-label { font-size: 10px; letter-spacing: 5px; text-transform: uppercase; color: var(--lime); font-weight: 600; }
+  .hours-schedule { display: flex; align-items: center; gap: 40px; flex-wrap: wrap; justify-content: center; }
+  .hours-item { display: flex; align-items: center; gap: 14px; }
+  .hours-day { font-size: 14px; color: var(--muted); }
+  .hours-time { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 700; color: var(--white); letter-spacing: 1px; }
+  .hours-sep { width: 1px; height: 36px; background: var(--border); }
+
+  /* ── TRAINERS ── */
+  #trainer { background: var(--card); }
+  .trainers-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 60px; }
+  .trainer-card { background: var(--black); border: 1px solid var(--border); border-radius: 6px; overflow: hidden; transition: border-color 0.3s, transform 0.3s; }
+  .trainer-card:hover { border-color: var(--lime); transform: translateY(-6px); }
+  .trainer-photo { aspect-ratio: 1 / 1; width: 100%; background: var(--card2); position: relative; overflow: hidden; }
+  .trainer-photo img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; object-position: center top; filter: brightness(0.82) saturate(0.85); transition: filter 0.4s; }
+  .trainer-card:hover .trainer-photo img { filter: brightness(0.95) saturate(1); }
+  .trainer-photo-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: linear-gradient(160deg, #151500, #0a0a0a); }
+  .trainer-initial { font-family: 'Bebas Neue', sans-serif; font-size: 140px; color: rgba(200,230,0,0.06); line-height: 1; }
+  .trainer-badge { position: absolute; top: 20px; left: 20px; background: var(--lime); color: var(--black); font-size: 11px; font-weight: 700; letter-spacing: 2px; padding: 6px 14px; text-transform: uppercase; clip-path: polygon(0 0, calc(100% - 8px) 0, 100% 100%, 8px 100%); z-index: 2; }
+  .trainer-info { padding: 28px 28px 32px; border-top: 1px solid var(--border); position: relative; }
+  .trainer-info::before { content: ''; position: absolute; top: 0; left: 28px; width: 40px; height: 3px; background: var(--lime); }
+  .trainer-name { font-family: 'Barlow Condensed', sans-serif; font-size: 36px; font-weight: 800; text-transform: uppercase; margin-bottom: 4px; }
+  .trainer-role { font-size: 13px; color: var(--lime); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+  .trainer-specs { display: flex; flex-direction: column; gap: 10px; }
+  .trainer-spec { display: flex; align-items: flex-start; gap: 12px; font-size: 13px; color: var(--muted); }
+  .spec-icon { color: var(--lime); font-size: 12px; margin-top: 2px; flex-shrink: 0; }
+  .trainer-achievements { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+  .achievement-pill { background: rgba(200,230,0,0.1); border: 1px solid rgba(200,230,0,0.25); color: var(--lime); font-size: 11px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; padding: 5px 14px; border-radius: 40px; }
+
+  /* ── KELAS PRICING GRID ── */
+  .kelas-group-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 13px; font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+    color: var(--muted); margin: 28px 0 12px; padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .kelas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
+  .kelas-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 6px;
+    padding: 18px 16px; transition: border-color 0.3s, transform 0.2s; position: relative; overflow: hidden;
+  }
+  .kelas-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: transparent; transition: background 0.3s; }
+  .kelas-card:hover { border-color: rgba(200,230,0,0.4); transform: translateY(-3px); }
+  .kelas-card:hover::before { background: var(--lime); }
+  .kelas-card.exclusive { border-color: rgba(200,230,0,0.3); background: rgba(200,230,0,0.04); }
+  .kelas-card.exclusive::before { background: var(--lime); }
+  .kelas-name { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; }
+  .kelas-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 5px; }
+  .kelas-row .sessions { color: var(--muted); font-weight: 500; }
+  .kelas-row .price { color: var(--white); font-weight: 600; font-family: 'Barlow Condensed', sans-serif; font-size: 15px; }
+  .kelas-row .saving { color: var(--lime); font-size: 11px; }
+  .kelas-exclusive-badge { position: absolute; top: 10px; right: 10px; background: rgba(200,230,0,0.15); border: 1px solid rgba(200,230,0,0.3); color: var(--lime); font-size: 8px; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; padding: 3px 8px; border-radius: 3px; }
+
+  /* VIP INFO section — black & gold */
+  .vip-info-box {
+    margin-top: 40px; padding: 32px;
+    background: linear-gradient(135deg, #1a1500 0%, #0d0d0d 60%, #120f00 100%);
+    border: 1px solid #b8960c; border-radius: 8px; position: relative; overflow: hidden;
+  }
+  .vip-info-box::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, #b8960c, #f5d060, #b8960c); }
+  .vip-info-title {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: 28px; font-weight: 800; text-transform: uppercase; letter-spacing: 0.5px;
+    color: #d4a820; margin-bottom: 8px;
+  }
+  .vip-info-sub { font-size: 14px; color: #8a7040; margin-bottom: 24px; }
+  .vip-info-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  .vip-info-col-title { font-size: 11px; letter-spacing: 2px; text-transform: uppercase; color: #d4a820; margin-bottom: 12px; font-weight: 600; }
+  .vip-info-list { display: flex; flex-direction: column; gap: 8px; }
+  .vip-info-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; color: rgba(220,200,120,0.75); line-height: 1.5; }
+  .vip-info-dot { width: 5px; height: 5px; border-radius: 50%; background: #d4a820; flex-shrink: 0; margin-top: 6px; }
+  .vip-info-item strong { color: rgba(245,220,100,0.95); font-weight: 600; }
+  #pricelist { background: var(--black); }
+  .pricing-tabs { display: flex; margin: 48px 0 40px; border-bottom: 1px solid var(--border); }
+  .tab-btn { background: none; border: none; cursor: pointer; padding: 14px 28px; font-family: 'Outfit', sans-serif; font-size: 13px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; color: var(--muted); border-bottom: 2px solid transparent; transition: color 0.2s, border-color 0.2s; margin-bottom: -1px; }
+  .tab-btn.active { color: var(--lime); border-bottom-color: var(--lime); }
+  .tab-btn:hover { color: var(--white); }
+  .tab-panel { display: none; }
+  .tab-panel.active { display: block; }
+  .pricing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  .price-card { background: var(--card); border: 1px solid var(--border); border-radius: 6px; padding: 24px 22px; transition: border-color 0.3s, transform 0.3s; position: relative; overflow: hidden; }
+  .price-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: transparent; transition: background 0.3s; }
+  .price-card:hover { border-color: rgba(200,230,0,0.4); transform: translateY(-4px); }
+  .price-card:hover::before { background: var(--lime); }
+  .price-card.featured { border-color: var(--lime); background: rgba(200,230,0,0.05); }
+  .price-card.featured::before { background: var(--lime); }
+  .featured-badge { position: absolute; top: 12px; right: 12px; background: var(--lime); color: var(--black); font-size: 9px; font-weight: 700; letter-spacing: 1.5px; padding: 4px 10px; text-transform: uppercase; clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%); }
+  .price-type { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
+  .price-amount { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 800; color: var(--white); line-height: 1; }
+  .price-amount .currency { font-size: 16px; font-weight: 400; color: var(--muted); vertical-align: super; }
+  .price-per { font-size: 12px; color: var(--muted); margin-top: 4px; }
+  .price-savings { display: inline-block; margin-top: 12px; background: rgba(200,230,0,0.12); color: var(--lime); font-size: 11px; font-weight: 600; letter-spacing: 1px; padding: 4px 10px; border-radius: 40px; }
+  .price-desc { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
+
+  /* VIP card — black & gold theme */
+  .price-card.vip {
+    border-color: #b8960c; background: linear-gradient(135deg, #1a1500 0%, #0d0d0d 60%, #120f00 100%);
+    grid-column: 1 / -1;
+  }
+  .price-card.vip::before { background: linear-gradient(90deg, #b8960c, #f5d060, #b8960c); }
+  .vip-header { display: flex; align-items: flex-start; justify-content: space-between; flex-wrap: wrap; gap: 12px; }
+  .vip-badge-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: #d4a820; margin-bottom: 4px; }
+  .price-card.vip .price-amount { color: #f5d060; }
+  .price-card.vip .price-amount .currency { color: #a07810; }
+  .price-card.vip .price-per { color: #8a7040; }
+  .price-card.vip .featured-badge { background: linear-gradient(135deg, #b8960c, #f5d060); color: #1a1200; }
+  .vip-perks { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
+  .vip-perk {
+    display: flex; align-items: center; gap: 8px;
+    font-size: 12px; color: rgba(245,220,100,0.85);
+    background: rgba(180,140,10,0.12); border: 1px solid rgba(180,140,10,0.35);
+    padding: 6px 12px; border-radius: 4px;
+  }
+  .vip-perk-dot { width: 5px; height: 5px; border-radius: 50%; background: #d4a820; flex-shrink: 0; }
+  .vip-note { font-size: 11px; color: #7a6520; margin-top: 12px; font-style: italic; }
+
+  /* ── VIDEO MODAL ── */
+  .video-modal-backdrop {
+    position: fixed; inset: 0; z-index: 200;
+    background: rgba(0,0,0,0.92);
+    display: flex; align-items: center; justify-content: center;
+    padding: 24px;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.3s;
+  }
+  .video-modal-backdrop.open { opacity: 1; pointer-events: all; }
+  .video-modal {
+    width: 100%; max-width: 780px;
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden;
+    transform: translateY(20px) scale(0.97);
+    transition: transform 0.3s;
+  }
+  .video-modal-backdrop.open .video-modal { transform: translateY(0) scale(1); }
+  .video-modal-header {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 16px 20px; border-bottom: 1px solid var(--border);
+  }
+  .video-modal-title { font-family: 'Barlow Condensed', sans-serif; font-size: 20px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
+  .video-modal-close {
+    width: 32px; height: 32px; border-radius: 50%;
+    border: 1px solid var(--border); background: none; cursor: pointer;
+    color: var(--muted); font-size: 18px; display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, color 0.2s;
+  }
+  .video-modal-close:hover { border-color: var(--lime); color: var(--lime); }
+  .video-modal video {
+    width: 100%; display: block;
+    background: #000; max-height: 70vh;
+  }
+  .video-modal-placeholder {
+    padding: 60px 24px; text-align: center;
+    background: var(--card2);
+  }
+  .video-modal-placeholder p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .video-modal-placeholder code { color: var(--lime); font-size: 12px; background: rgba(200,230,0,0.1); padding: 2px 8px; border-radius: 3px; }
+
+  /* Video play button on trainer photo */
+  .trainer-video-btn {
+    position: absolute; bottom: 20px; right: 20px;
+    display: flex; align-items: center; gap: 8px;
+    background: rgba(8,8,8,0.7); border: 1px solid rgba(200,230,0,0.5);
+    color: var(--lime); padding: 8px 16px; border-radius: 40px;
+    font-size: 12px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase;
+    cursor: pointer; transition: background 0.2s, border-color 0.2s;
+    backdrop-filter: blur(8px);
+  }
+  .trainer-video-btn:hover { background: var(--lime); color: var(--black); border-color: var(--lime); }
+  .trainer-video-btn svg { flex-shrink: 0; }
+  .promo-banner { background: linear-gradient(135deg, rgba(200,230,0,0.12), rgba(200,230,0,0.04)); border: 1px solid rgba(200,230,0,0.3); border-radius: 8px; padding: 24px 28px; margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .promo-banner-label { font-size: 10px; letter-spacing: 3px; text-transform: uppercase; color: var(--lime); margin-bottom: 6px; }
+  .promo-banner-title { font-family: 'Barlow Condensed', sans-serif; font-size: 28px; font-weight: 800; text-transform: uppercase; }
+  .promo-banner-price .big { font-family: 'Barlow Condensed', sans-serif; font-size: 40px; font-weight: 800; color: var(--lime); line-height: 1; }
+  .promo-banner-price .save { font-size: 12px; color: var(--muted); margin-top: 4px; }
+
+  /* ── CONTACT / FOOTER ── */
+  #kontak { background: var(--card); border-top: 1px solid var(--border); padding: 80px 5vw 0; }
+  .contact-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 80px; padding-bottom: 80px; border-bottom: 1px solid var(--border); }
+  .contact-title { font-family: 'Barlow Condensed', sans-serif; font-size: clamp(40px, 5vw, 70px); font-weight: 800; text-transform: uppercase; line-height: 0.92; margin-bottom: 28px; }
+  .contact-title .lime { color: var(--lime); }
+  .contact-desc { color: var(--muted); font-size: 15px; line-height: 1.7; max-width: 400px; }
+  .contact-links { display: flex; flex-direction: column; gap: 20px; }
+  .contact-link { display: flex; align-items: center; gap: 20px; text-decoration: none; padding: 20px 24px; border: 1px solid var(--border); border-radius: 6px; background: var(--black); transition: border-color 0.3s, transform 0.3s, background 0.3s; }
+  .contact-link:hover { border-color: var(--lime); transform: translateX(6px); background: rgba(200,230,0,0.04); }
+  /* FIX #6: icon color = white, turns black on hover */
+  .contact-icon { width: 48px; height: 48px; border-radius: 50%; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; flex-shrink: 0; color: var(--white); transition: border-color 0.3s, background 0.3s, color 0.3s; }
+  .contact-link:hover .contact-icon { border-color: var(--lime); background: var(--lime); color: var(--black); }
+  .contact-info-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 4px; }
+  .contact-info-value { font-size: 15px; font-weight: 500; color: var(--white); }
+  .address-block { margin-top: 36px; }
+  .address-block .adr-label { font-size: 11px; color: var(--muted); letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+  .address-block .adr-text { font-size: 15px; color: var(--white); line-height: 1.6; }
+  .address-block .adr-text a { color: var(--lime); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 13px; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; transition: gap 0.2s; }
+  .address-block .adr-text a:hover { gap: 10px; }
+  footer { padding: 28px 5vw; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px; }
+  .footer-brand { font-family: 'Bebas Neue', sans-serif; font-size: 18px; letter-spacing: 3px; color: var(--white); }
+  .footer-brand span { color: var(--lime); }
+  .footer-copy { font-size: 12px; color: var(--gray); }
+  .footer-tagline { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); }
+
+  /* ── SCHEDULE HOVER OVERLAY ── */
+  .schedule-stage {
+    position: relative;
+    aspect-ratio: 16 / 9;   /* table IS 16:9 */
+    overflow: hidden;        /* overlay clipped to stage bounds */
+  }
+  .schedule-overlay {
+    position: absolute;
+    inset: 0;                /* covers exactly the 16:9 table */
+    z-index: 20;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  }
+  .schedule-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+  }
+  /* Inner box fills the overlay (= fills the 16:9 stage) */
+  .sov-inner {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border: 2px solid var(--lime);
+    box-shadow: inset 0 0 0 1px rgba(200,230,0,0.15);
+    transform: scale(0.97);
+    transition: transform 0.3s cubic-bezier(0.34,1.3,0.64,1);
+    background: var(--black);
+  }
+  .schedule-overlay.active .sov-inner {
+    transform: scale(1);
+  }
+  /* Slideshow layer */
+  .sov-slides {
+    position: absolute; inset: 0;
+  }
+  .sov-slide {
+    position: absolute; inset: 0;
+    background-size: cover; background-position: center;
+    opacity: 0;
+    transition: opacity 0.6s ease;
+  }
+  .sov-slide.active { opacity: 1; }
+  /* Placeholder slide (no photo yet) */
+  .sov-slide-placeholder {
+    position: absolute; inset: 0;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    gap: 10px; opacity: 0; transition: opacity 0.5s ease;
+  }
+  .sov-slide-placeholder.active { opacity: 1; }
+  .sov-slide-placeholder .ph-num {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(80px, 12vw, 200px); color: rgba(200,230,0,0.08); line-height: 1;
+  }
+  .sov-slide-placeholder .ph-txt {
+    font-size: clamp(11px, 0.9vw, 15px); letter-spacing: 3px; text-transform: uppercase; color: rgba(200,230,0,0.25);
+  }
+  /* Dark gradient on top of slides */
+  .sov-gradient {
+    position: absolute; inset: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.9) 0%, rgba(0,0,0,0.3) 50%, rgba(0,0,0,0.15) 100%);
+    pointer-events: none;
+  }
+  /* Slide dots */
+  .sov-dots {
+    position: absolute; bottom: clamp(60px,10vh,100px); left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 10px; z-index: 5;
+  }
+  .sov-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    background: rgba(255,255,255,0.3);
+    transition: background 0.3s, transform 0.3s;
+  }
+  .sov-dot.active { background: var(--lime); transform: scale(1.4); }
+  /* Info bar at bottom */
+  .sov-info {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    padding: clamp(16px,3vh,36px) clamp(20px,3vw,44px);
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 16px; z-index: 5;
+  }
+  .sov-info-left {}
+  .sov-time-badge {
+    font-size: clamp(11px, 1vw, 14px); letter-spacing: 3px; text-transform: uppercase;
+    color: var(--lime); margin-bottom: 8px; font-weight: 600;
+  }
+  .sov-class-name {
+    font-family: 'Barlow Condensed', sans-serif;
+    font-size: clamp(32px, 5vw, 80px); font-weight: 800; text-transform: uppercase;
+    color: var(--white); line-height: 1; letter-spacing: -0.5px;
+  }
+  .sov-btn {
+    display: flex; align-items: center; gap: 10px;
+    background: var(--lime); color: var(--black);
+    padding: clamp(10px,1.2vh,16px) clamp(16px,2vw,28px); border: none; cursor: pointer;
+    font-family: 'Outfit', sans-serif;
+    font-size: clamp(11px, 0.9vw, 14px); font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+    clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 100%, 10px 100%);
+    transition: background 0.2s, transform 0.15s;
+    white-space: nowrap; flex-shrink: 0;
+  }
+  .sov-btn:hover { background: var(--white); transform: scaleX(1.04); }
+  /* Close X in corner */
+  .sov-close {
+    position: absolute; top: 14px; right: 14px; z-index: 10;
+    width: 32px; height: 32px; border-radius: 50%;
+    background: rgba(0,0,0,0.6); border: 1px solid rgba(255,255,255,0.2);
+    color: var(--white); font-size: 16px; cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .sov-close:hover { border-color: var(--lime); background: rgba(200,230,0,0.15); color: var(--lime); }
+
+  /* Make table cells hoverable — highlight on hover */
+  .schedule-table td:not(.time-col):not(.empty) {
+    cursor: pointer; transition: background 0.2s, color 0.2s;
+  }
+  .schedule-table td:not(.time-col):not(.empty):hover {
+    background: rgba(200,230,0,0.12);
+    color: var(--lime);
+  }
+
+
+
+  /* ════════════════════════════════════════════
+     RESPONSIVE — MOBILE OPTIMISATION
+     Fixes: hero gap, photo grid, schedule table,
+     pricelist tab overflow
+  ════════════════════════════════════════════ */
+
+  /* ── 900px: compact nav ── */
+  @media (max-width: 900px) {
+    .nav-links a { padding: 0 12px; font-size: 11px; }
+    .nav-cta { padding: 8px 14px; font-size: 10px; }
+  }
+
+  /* ── 768px: main tablet/phone breakpoint ── */
+  @media (max-width: 768px) {
+    /* Navbar */
+    .nav-links { display: none; }
+
+    /* Fix 1 — Hero: reduce giant gap above headline */
+    #hero { padding: 0 6vw 10vw; justify-content: flex-end; }
+    .hero-headline {
+      padding-top: 30px;          /* much less than 80px on desktop */
+      font-size: clamp(60px, 18vw, 100px);
+      margin-top: 0;
+    }
+    .hero-stats { display: none; }
+    .hero-sub { font-size: 14px; margin: 18px 0 28px; }
+    .btn-primary { padding: 14px 28px; font-size: 12px; }
+
+    /* Shared section padding */
+    section { padding: 60px 5vw; }
+    .section-title { font-size: clamp(38px, 10vw, 60px); }
+
+    /* Fix 2 — Training area: vertical stack on mobile */
+    .facilities-header { flex-direction: column; align-items: flex-start; margin-bottom: 32px; }
+    .facilities-desc { max-width: 100%; }
+
+    /* Photo grid → single scrollable column (swipe to swap stays) */
+    .photo-grid {
+      grid-template-columns: 1fr;
+      grid-template-rows: 240px 180px 180px 180px 180px;
+      gap: 8px;
+    }
+    .photo-cell.main-cell { grid-column: 1; grid-row: 1; }
+    .photo-cell.thumb-cell { grid-row: auto; }
+    .swap-hint { opacity: 0.6; }   /* always hint on mobile (no hover) */
+
+    /* Fix 3 — Schedule: disable 16:9 + horizontal scroll instead */
+    .schedule-stage {
+      aspect-ratio: unset;        /* remove 16:9 constraint */
+      overflow-x: auto;           /* allow horizontal scroll */
+    }
+    .schedule-wrap { overflow-x: auto; margin-top: 32px; }
+    .schedule-table {
+      height: auto;
+      min-width: 560px;           /* enforces columns don't collapse */
+    }
+    .schedule-table th {
+      font-size: 11px; letter-spacing: 1px;
+      padding: 10px 6px; height: auto;
+    }
+    .schedule-table .time-col {
+      font-size: 11px; padding: 10px 8px; white-space: nowrap;
+    }
+    .schedule-table td {
+      font-size: 11px; padding: 10px 4px;
+      min-width: 72px;
+    }
+    .schedule-table tbody tr { height: auto; }
+    /* Schedule overlay on mobile: show as fixed modal instead of absolute */
+    .schedule-overlay {
+      display: flex !important;    /* re-enable — we show as fixed modal on mobile */
+      position: fixed;
+      inset: 0;
+      z-index: 200;
+      background: rgba(0,0,0,0.88);
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+    .schedule-overlay .sov-inner {
+      position: relative;
+      inset: auto;
+      width: 100%;
+      max-width: 600px;
+      aspect-ratio: 16 / 9;
+      transform: scale(0.95);
+    }
+    .schedule-overlay.active .sov-inner { transform: scale(1); }
+    .sov-close { display: flex !important; }   /* show close on mobile */
+
+    /* Cells: show tap hint */
+    .schedule-table td:not(.time-col):not(.empty) {
+      cursor: pointer;
+      position: relative;
+    }
+
+    /* Trainer: single column */
+    .trainers-grid { grid-template-columns: 1fr; }
+    .trainer-photo { aspect-ratio: 4 / 3; }  /* less tall on mobile */
+
+    /* Fix 4 — Pricelist tabs: scrollable row, no tab-wrap */
+    .pricing-tabs {
+      overflow-x: auto;
+      flex-wrap: nowrap;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      gap: 0;
+      padding-bottom: 0;
+      /* fade-right hint that more tabs exist */
+      -webkit-mask-image: linear-gradient(to right, black 70%, transparent 100%);
+      mask-image: linear-gradient(to right, black 70%, transparent 100%);
+    }
+    .pricing-tabs::-webkit-scrollbar { display: none; }
+    /* Remove mask when scrolled to end (JS toggles .at-end) */
+    .pricing-tabs.at-end {
+      -webkit-mask-image: none;
+      mask-image: none;
+    }
+    .tab-btn {
+      padding: 12px 16px;
+      font-size: 11px; letter-spacing: 1px;
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
+    /* Pricing grid: 2 cols */
+    .pricing-grid { grid-template-columns: 1fr 1fr; }
+    .price-card.vip { grid-column: 1 / -1; }
+
+    /* VIP info grid: stacked */
+    .vip-info-box { padding: 20px; }
+    .vip-info-grid { grid-template-columns: 1fr; gap: 20px; }
+
+    /* Kelas grid: 2 cols */
+    .kelas-grid { grid-template-columns: 1fr 1fr; }
+
+    /* Contact */
+    .contact-grid { grid-template-columns: 1fr; gap: 32px; }
+    .contact-title { font-size: clamp(36px, 10vw, 56px); }
+
+    /* Hours strip */
+    .hours-strip { padding: 28px 5vw; gap: 12px; }
+    .hours-schedule { gap: 24px; }
+    .hours-time { font-size: 22px; }
+
+    /* Footer */
+    footer { flex-direction: column; align-items: flex-start; gap: 10px; }
+  }
+
+  /* ── 480px: small phones ── */
+  @media (max-width: 480px) {
+    section { padding: 52px 5vw; }
+
+    /* Hero tighter */
+    .hero-headline { font-size: clamp(52px, 20vw, 80px); }
+    .hero-sub { font-size: 13px; margin: 14px 0 24px; }
+
+    /* Training photos: slightly shorter */
+    .photo-grid {
+      grid-template-rows: 200px 160px 160px 160px 160px;
+    }
+
+    /* Pricing: single col */
+    .pricing-grid { grid-template-columns: 1fr; }
+    .kelas-grid { grid-template-columns: 1fr; }
+
+    /* Promo banner: stack vertically */
+    .promo-banner { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .promo-banner-price { text-align: left; }
+    .promo-banner-price .big { font-size: 32px; }
+
+    /* Trainer info tighter */
+    .trainer-info { padding: 20px 20px 24px; }
+    .trainer-name { font-size: 28px; }
+  }
+
+</style>
 </head>
 <body>
 
@@ -19,7 +700,7 @@
     <li><a href="#pricelist">Pricelist</a></li>
     <li><a href="#kontak">Kontak</a></li>
   </ul>
-  <a href="https://wa.me/6288200862953" target="_blank" class="nav-cta">Daftar Sekarang</a>
+  <a href="https://wa.me/62882008629530" target="_blank" class="nav-cta">Daftar Sekarang</a>
 </nav>
 
 <!-- HERO -->
@@ -275,12 +956,12 @@
     <!-- COACH BASUKI -->
     <div class="trainer-card reveal reveal-delay-1">
       <div class="trainer-photo">
-        <img src="img/coach-basuki.jpg" alt="Coach Basuki" onerror="this.style.display='none'">
+        <img src="assets/img/coach-basuki.jpg" alt="Coach Basuki" onerror="this.style.display='none'">
         <div class="trainer-photo-placeholder"><div class="trainer-initial">B</div></div>
         <div class="trainer-badge">Coach</div>
         <button class="trainer-video-btn" onclick="openVideoModal('basuki')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          Tonton Perkenalan
+          Kenali Trainer Mu!
         </button>
       </div>
       <div class="trainer-info">
@@ -303,12 +984,12 @@
     <!-- COACH MARIO -->
     <div class="trainer-card reveal reveal-delay-2">
       <div class="trainer-photo">
-        <img src="img/coach-mario.jpg" alt="Coach Mario" onerror="this.style.display='none'">
+        <img src="assets/img/coach-mario.jpg" alt="Coach Mario" onerror="this.style.display='none'">
         <div class="trainer-photo-placeholder"><div class="trainer-initial">M</div></div>
         <div class="trainer-badge">Coach</div>
         <button class="trainer-video-btn" onclick="openVideoModal('mario')">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-          Tonton Perkenalan
+          Kenali Trainer Mu!
         </button>
       </div>
       <div class="trainer-info">
@@ -328,10 +1009,32 @@
         </div>
       </div>
     </div>
+    <!-- COACH PEPENG PANGGIH -->
+    <div class="trainer-card reveal reveal-delay-3" style="grid-column: 1 / -1; max-width: 600px; margin: 0 auto; width: 100%;">
+      <div class="trainer-photo">
+        <img src="assets/img/coach-pepeng.jpg" alt="Coach Pepeng Panggih" onerror="this.style.display='none'">
+        <div class="trainer-photo-placeholder"><div class="trainer-initial">P</div></div>
+        <div class="trainer-badge">Boxing Coach</div>
+      </div>
+      <div class="trainer-info">
+        <div class="trainer-name">Pepeng Panggih</div>
+        <div class="trainer-role">Boxing &amp; Combat Sports Coach</div>
+        <div class="trainer-specs">
+          <div class="trainer-spec"><span class="spec-icon">◆</span>Privat Boxing &amp; Self Defence Specialist</div>
+          <div class="trainer-spec"><span class="spec-icon">◆</span>Silver Medal &mdash; Kejurnas TBI 2018 &amp; Asta MMA 2022</div>
+          <div class="trainer-spec"><span class="spec-icon">◆</span>Gold Medal &mdash; Kejurnas TBI 2019 &amp; Combat Sport Banjar 2025</div>
+          <div class="trainer-spec"><span class="spec-icon">◆</span>Brown Medal &mdash; Rambo Championship 2019 &amp; Sambo Combat Sport 2025</div>
+        </div>
+        <div class="trainer-achievements">
+          <span class="achievement-pill">Kejurnas TBI Gold</span>
+          <span class="achievement-pill">Asta MMA Silver</span>
+          <span class="achievement-pill">Boxing</span>
+          <span class="achievement-pill">Self Defence</span>
+        </div>
+      </div>
+    </div>
   </div>
 </section>
-
-<!-- PRICELIST -->
 <section id="pricelist">
   <div class="section-tag reveal">Harga Member</div>
   <h2 class="section-title reveal reveal-delay-1">PRICE<br><span class="outline">LIST</span></h2>
@@ -340,6 +1043,7 @@
     <button class="tab-btn" onclick="switchTab('pelajar',this)">Pelajar / Mahasiswa</button>
     <button class="tab-btn" onclick="switchTab('pt',this)">Personal Trainer</button>
     <button class="tab-btn" onclick="switchTab('kelas',this)">Kelas Skyfit</button>
+    <button class="tab-btn" onclick="switchTab('boxing',this)">Privat Boxing</button>
   </div>
 
   <!-- UMUM -->
@@ -510,6 +1214,49 @@
       </ul>
     </div>
   </div>
+
+  <!-- PRIVAT BOXING -->
+  <div class="tab-panel" id="tab-boxing">
+    <!-- Coach profile -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:8px;padding:28px;margin-bottom:28px;display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;" class="reveal">
+      <div>
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:10px;">Coach Profile &amp; Fight Record</div>
+        <div style="font-family:'Barlow Condensed',sans-serif;font-size:36px;font-weight:800;text-transform:uppercase;color:var(--white);margin-bottom:16px;">Pepeng Panggih</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);"><span style="color:var(--lime);font-size:10px;margin-top:3px;">◆</span>Silver Medal &mdash; Kejurnas TBI 2018</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);"><span style="color:var(--lime);font-size:10px;margin-top:3px;">◆</span>Brown Medal &mdash; Rambo Championship 2019</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);"><span style="color:var(--lime);font-size:10px;margin-top:3px;">◆</span>Gold Medal &amp; Trophy &mdash; Kejurnas TBI 2019</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);"><span style="color:var(--lime);font-size:10px;margin-top:3px;">◆</span>Silver Medal &mdash; Asta MMA 2022</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);"><span style="color:var(--lime);font-size:10px;margin-top:3px;">◆</span>Gold Medal &mdash; Combat Sport Banjar 2025</div>
+          <div style="display:flex;align-items:flex-start;gap:10px;font-size:13px;color:var(--muted);"><span style="color:var(--lime);font-size:10px;margin-top:3px;">◆</span>Brown Medal &mdash; Sambo Combat Sport 2025 (x2)</div>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:10px;letter-spacing:3px;text-transform:uppercase;color:var(--lime);margin-bottom:14px;">Why Boxing?</div>
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <div style="font-size:13px;color:var(--muted);">◆ &nbsp;Fit &amp; Healthy</div>
+          <div style="font-size:13px;color:var(--muted);">◆ &nbsp;Self Defence</div>
+          <div style="font-size:13px;color:var(--muted);">◆ &nbsp;Increase Self-confidence</div>
+          <div style="font-size:13px;color:var(--muted);">◆ &nbsp;Enhance Response, Speed &amp; Agility</div>
+          <div style="font-size:13px;color:var(--muted);">◆ &nbsp;Increase Strength &amp; Muscle</div>
+          <div style="font-size:13px;color:var(--muted);">◆ &nbsp;Fun Cardio</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="pricing-grid reveal reveal-delay-1">
+      <div class="price-card reveal"><div class="price-type">Privat 1&times;</div><div class="price-amount"><span class="currency">Rp</span> 120k</div><div class="price-per">per orang</div></div>
+      <div class="price-card reveal reveal-delay-1"><div class="price-type">Privat 3&times;</div><div class="price-amount"><span class="currency">Rp</span> 300k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 60.000</div></div>
+      <div class="price-card featured reveal reveal-delay-2"><div class="featured-badge">Best Deal</div><div class="price-type">Privat 10&times;</div><div class="price-amount"><span class="currency">Rp</span> 950k</div><div class="price-per">per orang</div><div class="price-savings">Hemat Rp 250.000</div></div>
+      <div class="price-card reveal reveal-delay-3"><div class="price-type">Couple 1&times;</div><div class="price-amount"><span class="currency">Rp</span> 220k</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 20.000</div></div>
+      <div class="price-card reveal reveal-delay-4"><div class="price-type">Couple 3&times;</div><div class="price-amount"><span class="currency">Rp</span> 580k</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 140.000</div></div>
+      <div class="price-card reveal"><div class="price-type">Couple 10&times;</div><div class="price-amount"><span class="currency">Rp</span> 1.8jt</div><div class="price-per">untuk 2 orang</div><div class="price-savings">Hemat Rp 600.000</div></div>
+    </div>
+    <div style="margin-top:20px;padding:14px 18px;border:1px solid var(--border);border-radius:6px;background:var(--card);" class="reveal">
+      <div style="font-size:10px;letter-spacing:2px;color:var(--muted);text-transform:uppercase;margin-bottom:6px;">Catatan</div>
+      <div style="font-size:13px;color:var(--muted);line-height:1.7;">Masa aktif 1 bulan dari pendaftaran. Wajib booking jadwal terlebih dahulu.</div>
+    </div>
+  </div>
 </section>
 
 <!-- KONTAK -->
@@ -532,7 +1279,7 @@
 
     <div class="contact-links reveal reveal-delay-2">
       <!-- WhatsApp Admin -->
-      <a href="https://wa.me/6288200862953" target="_blank" class="contact-link">
+      <a href="https://wa.me/62882008629530" target="_blank" class="contact-link">
         <div class="contact-icon">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
             <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/>
@@ -574,18 +1321,7 @@
         </div>
       </a>
 
-      <!-- Lokasi — FIX #6: value = "SKYFIT GYM & VIEW" -->
-      <a href="https://maps.app.goo.gl/arKy5NKTJhsZHUAAA" target="_blank" class="contact-link">
-        <div class="contact-icon">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor">
-            <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/>
-          </svg>
-        </div>
-        <div>
-          <div class="contact-info-label">Lokasi Google Maps</div>
-          <div class="contact-info-value">SKYFIT GYM &amp; VIEW</div>
-        </div>
-      </a>
+
     </div>
   </div>
 
@@ -609,6 +1345,313 @@
   </div>
 </div>
 
-<script src="js/main.js"></script>
+<script>
+  // Navbar scroll
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => {
+    navbar.classList.toggle('scrolled', window.scrollY > 60);
+  });
+
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+  }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+  document.querySelectorAll('#hero .reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), 200 + i * 150);
+  });
+
+  // Photo swap — also works on touch (tap on thumb)
+  document.querySelectorAll('.photo-cell.thumb-cell').forEach(cell => {
+    cell.addEventListener('click', () => swapWithMain(cell));
+  });
+  function swapWithMain(thumbCell) {
+    const mainCell = document.getElementById('mainCell');
+    const mainPH  = mainCell.querySelector('.photo-placeholder').cloneNode(true);
+    const mainOV  = mainCell.querySelector('.photo-overlay').cloneNode(true);
+    const thumbPH = thumbCell.querySelector('.photo-placeholder').cloneNode(true);
+    const thumbOV = thumbCell.querySelector('.photo-overlay').cloneNode(true);
+    mainCell.style.opacity = '0';
+    mainCell.style.transform = 'scale(0.97)';
+    setTimeout(() => {
+      mainCell.querySelector('.photo-placeholder').replaceWith(thumbPH);
+      mainCell.querySelector('.photo-overlay').replaceWith(thumbOV);
+      thumbCell.querySelector('.photo-placeholder').replaceWith(mainPH);
+      thumbCell.querySelector('.photo-overlay').replaceWith(mainOV);
+      mainCell.style.opacity = '1';
+      mainCell.style.transform = 'scale(1)';
+    }, 200);
+  }
+
+  // Tab switching
+  function switchTab(tabId, btn) {
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    btn.classList.add('active');
+    const panel = document.getElementById('tab-' + tabId);
+    panel.classList.add('active');
+    panel.querySelectorAll('.reveal').forEach(el => {
+      el.classList.remove('visible');
+      setTimeout(() => observer.observe(el), 10);
+    });
+  }
+
+  // ── VIDEO INTRO MODAL ──
+  // Trainer video config — ganti nilai `src` dengan path video lokal setelah aset tersedia.
+  // Contoh: src: 'video/basuki-intro.mp4'
+  const trainerVideos = {
+    basuki: {
+      name: 'Coach Basuki',
+      src: 'video/Coach_Basuki_Intro.mp4'
+    },
+    mario: {
+      name: 'Coach Mario',
+      src: 'video/Coach_Mario_Intro.mp4'
+    }
+  };
+
+  function openVideoModal(coachId) {
+    const config = trainerVideos[coachId];
+    const modal  = document.getElementById('videoModal');
+    const title  = document.getElementById('videoModalTitle');
+    const body   = document.getElementById('videoModalBody');
+
+    title.textContent = config.name;
+
+    if (config.src) {
+      body.innerHTML = `<video controls autoplay playsinline src="${config.src}"></video>`;
+    } else {
+      body.innerHTML = `
+        <div class="video-modal-placeholder">
+          <p style="font-size:16px;color:var(--white);margin-bottom:12px;">Video belum tersedia</p>
+          <p>Untuk menampilkan video perkenalan <strong>${config.name}</strong>, masukkan path file video ke dalam kode:<br><br>
+          <code>trainerVideos.${coachId}.src = 'nama-file-video.mp4'</code><br><br>
+          Letakkan file video di folder yang sama dengan file HTML ini.</p>
+        </div>`;
+    }
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeVideoModal() {
+    const modal = document.getElementById('videoModal');
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+    // Stop video playback
+    const video = modal.querySelector('video');
+    if (video) { video.pause(); video.src = ''; }
+  }
+
+  function closeVideoModalOnBackdrop(e) {
+    if (e.target === document.getElementById('videoModal')) closeVideoModal();
+  }
+
+  // ── SCHEDULE HOVER OVERLAY ──
+  // Data: kelas name → { photos[], video }
+  // Photos: array of 3 image paths (leave empty string '' if not yet available)
+  // Video: path to class documentation video
+  const kelasData = {
+    'Yoga':              { photos: ['','',''], video: '' },
+    'Functional Training': { photos: ['','',''], video: '' },
+    'Fit Elderly':       { photos: ['','',''], video: '' },
+    'Aerobik':           { photos: ['','',''], video: '' },
+    'Fit Kid':           { photos: ['','',''], video: '' },
+    'Body Combat':       { photos: ['','',''], video: '' },
+    'Body Pump':         { photos: ['','',''], video: '' },
+    'Full Body HIIT':    { photos: ['','',''], video: '' },
+    'Fit Boxing':        { photos: ['','',''], video: '' },
+    'Agility':           { photos: ['','',''], video: '' },
+  };
+
+  // Placeholder gradient backgrounds per slide when no photo
+  const placeholderBg = [
+    'linear-gradient(135deg, #0f1a00 0%, #1a2a00 50%, #080808 100%)',
+    'linear-gradient(135deg, #0a0a0a 0%, #151a00 50%, #0f1500 100%)',
+    'linear-gradient(135deg, #080808 0%, #0d1700 50%, #080808 100%)',
+  ];
+
+  let sovSlideInterval = null;
+  let sovCurrentSlide  = 0;
+  let sovTotalSlides   = 3;
+  let sovActiveKey     = null;
+  let hoverTimeout     = null;
+
+  const overlay    = document.getElementById('scheduleOverlay');
+  const sovSlides  = document.getElementById('sovSlides');
+  const sovDots    = document.getElementById('sovDots');
+  const sovName    = document.getElementById('sovClassName');
+  const sovBadge   = document.getElementById('sovTimeBadge');
+  const sovVidBtn  = document.getElementById('sovVideoBtn');
+  const sovClose   = document.getElementById('sovClose');
+  const stage      = document.getElementById('scheduleStage');
+
+  function buildSlides(photos) {
+    sovSlides.innerHTML = '';
+    sovDots.innerHTML   = '';
+    sovTotalSlides = photos.length;
+
+    photos.forEach((src, i) => {
+      const slide = document.createElement('div');
+      if (src) {
+        slide.className = 'sov-slide' + (i === 0 ? ' active' : '');
+        slide.style.backgroundImage = `url('${src}')`;
+      } else {
+        slide.className = 'sov-slide-placeholder' + (i === 0 ? ' active' : '');
+        slide.style.background = placeholderBg[i] || placeholderBg[0];
+        slide.innerHTML = `<div class="ph-num">${String(i+1).padStart(2,'0')}</div>
+                           <div class="ph-txt">Foto Dokumentasi ${i+1}</div>`;
+      }
+      sovSlides.appendChild(slide);
+
+      const dot = document.createElement('div');
+      dot.className = 'sov-dot' + (i === 0 ? ' active' : '');
+      sovDots.appendChild(dot);
+    });
+  }
+
+  function goToSlide(idx) {
+    const slides = sovSlides.querySelectorAll('.sov-slide, .sov-slide-placeholder');
+    const dots   = sovDots.querySelectorAll('.sov-dot');
+    slides.forEach((s, i) => s.classList.toggle('active', i === idx));
+    dots.forEach((d, i)   => d.classList.toggle('active', i === idx));
+    sovCurrentSlide = idx;
+  }
+
+  function startSlideshow() {
+    stopSlideshow();
+    sovSlideInterval = setInterval(() => {
+      const next = (sovCurrentSlide + 1) % sovTotalSlides;
+      goToSlide(next);
+    }, 1000);
+  }
+
+  function stopSlideshow() {
+    if (sovSlideInterval) { clearInterval(sovSlideInterval); sovSlideInterval = null; }
+  }
+
+  function openOverlay(className, dayLabel, timeLabel, data) {
+    sovActiveKey = className;
+    sovCurrentSlide = 0;
+
+    sovName.textContent  = className;
+    sovBadge.textContent = dayLabel + ' · ' + timeLabel;
+
+    buildSlides(data.photos);
+
+    // Wire video button
+    sovVidBtn.onclick = () => {
+      closeOverlay();
+      openKelasVideoModal(className, data.video);
+    };
+
+    overlay.classList.add('active');
+    startSlideshow();
+  }
+
+  function closeOverlay() {
+    if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
+    overlay.classList.remove('active');
+    stopSlideshow();
+    sovActiveKey = null;
+  }
+
+  // Close on X button
+  sovClose.addEventListener('click', (e) => { e.stopPropagation(); closeOverlay(); });
+
+  // Close when clicking the dark backdrop (outside sov-inner)
+  overlay.addEventListener('click', (e) => {
+    if (!e.target.closest('.sov-inner')) closeOverlay();
+  });
+
+  // Attach hover listeners to non-empty schedule cells
+  const dayNames  = ['SEN','SEL','RAB','KAM','JUM','SAB','MIN'];
+  const timeRows  = { 0:'08:00', 1:'09:00', 2:'15:30', 3:'16:45', 4:'19:00' };
+
+  document.querySelectorAll('.schedule-table tbody tr').forEach((row, rowIdx) => {
+    const time = timeRows[rowIdx] || '';
+    row.querySelectorAll('td:not(.time-col)').forEach((cell, colIdx) => {
+      if (cell.classList.contains('empty')) return;
+      // Use innerText so <br> tags become spaces/newlines → collapse to single space
+      const rawText = (cell.innerText || cell.textContent).trim().replace(/[\s\n]+/g, ' ');
+      if (!rawText) return;
+      const day = dayNames[colIdx] || '';
+
+      const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
+
+      cell.addEventListener('mouseenter', () => {
+        if (isMobile()) return;   // mobile uses click, not hover
+        // 1 second delay before showing overlay
+        hoverTimeout = setTimeout(() => {
+          const key  = Object.keys(kelasData).find(k => rawText.toLowerCase().includes(k.toLowerCase())) || rawText;
+          const data = kelasData[key] || { photos: ['','',''], video: '' };
+          openOverlay(key, day, time, data);
+        }, 1000);
+      });
+
+      cell.addEventListener('mouseleave', () => {
+        if (isMobile()) return;
+        // Cancel if mouse leaves before 1 second
+        if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
+      });
+
+      // Click = instant open (both mobile tap and desktop click)
+      cell.addEventListener('click', () => {
+        if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
+        const key  = Object.keys(kelasData).find(k => rawText.toLowerCase().includes(k.toLowerCase())) || rawText;
+        const data = kelasData[key] || { photos: ['','',''], video: '' };
+        openOverlay(key, day, time, data);
+      });
+    });
+  });
+
+  // Close overlay when mouse leaves the entire stage area (desktop only)
+  stage.addEventListener('mouseleave', (e) => {
+    if (window.matchMedia('(max-width: 768px)').matches) return;
+    if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
+    if (!overlay.contains(e.relatedTarget)) closeOverlay();
+  });
+
+  // Kelas video modal (separate from trainer modal)
+  function openKelasVideoModal(className, videoSrc) {
+    const modal = document.getElementById('videoModal');
+    const title = document.getElementById('videoModalTitle');
+    const body  = document.getElementById('videoModalBody');
+
+    title.textContent = 'Dokumentasi Kelas — ' + className;
+
+    if (videoSrc) {
+      body.innerHTML = `<video controls autoplay playsinline src="${videoSrc}" style="width:100%;display:block;background:#000;max-height:70vh;"></video>`;
+    } else {
+      body.innerHTML = `
+        <div class="video-modal-placeholder">
+          <p style="font-size:16px;color:var(--white);margin-bottom:12px;">Video belum tersedia</p>
+          <p>Tambahkan path video dokumentasi kelas <strong>${className}</strong> ke dalam kode:<br><br>
+          <code>kelasData['${className}'].video = 'video/nama-file.mp4'</code><br><br>
+          Foto kelas bisa ditambahkan di: <code>kelasData['${className}'].photos</code></p>
+        </div>`;
+    }
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  // Pricing tabs scroll fade indicator
+  const pricingTabs = document.querySelector('.pricing-tabs');
+  if (pricingTabs) {
+    const checkTabsScroll = () => {
+      const atEnd = pricingTabs.scrollLeft + pricingTabs.clientWidth >= pricingTabs.scrollWidth - 4;
+      pricingTabs.classList.toggle('at-end', atEnd);
+    };
+    pricingTabs.addEventListener('scroll', checkTabsScroll, { passive: true });
+    checkTabsScroll();
+  }
+
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape') { closeVideoModal(); closeOverlay(); }
+  });
+
+</script>
 </body>
 </html>
