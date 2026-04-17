@@ -37,6 +37,7 @@ function switchTab(tabId, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
+  btn.focus();  // ← Focus ke button yang aktif
   const panel = document.getElementById('tab-' + tabId);
   panel.classList.add('active');
   panel.querySelectorAll('.reveal').forEach(el => {
@@ -235,7 +236,7 @@ document.querySelectorAll('.schedule-table tbody tr').forEach((row, rowIdx) => {
         const key  = Object.keys(kelasData).find(k => rawText.toLowerCase().includes(k.toLowerCase())) || rawText;
         const data = kelasData[key] || { photos: ['','',''], video: '' };
         openOverlay(key, day, time, data);
-      }, 1000);
+      }, 800);
     });
 
     cell.addEventListener('mouseleave', () => {
@@ -298,4 +299,47 @@ if (pricingTabs) {
 
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') { closeVideoModal(); closeOverlay(); }
+});
+
+// PERBAIKAN #3: Add keyboard navigation untuk pricing tabs
+function switchTab(tabId, btn) {
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  btn.focus();  // ← Focus ke button yang aktif
+  const panel = document.getElementById('tab-' + tabId);
+  panel.classList.add('active');
+  panel.querySelectorAll('.reveal').forEach(el => {
+    el.classList.remove('visible');
+    setTimeout(() => observer.observe(el), 10);
+  });
+}
+
+// ── PERBAIKAN #4: Keyboard navigation antar tabs ──
+document.addEventListener('keydown', (e) => {
+  if (e.target.classList.contains('tab-btn')) {
+    const tabs = Array.from(document.querySelectorAll('.tab-btn'));
+    const currentIdx = tabs.indexOf(e.target);
+    
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = tabs[(currentIdx + 1) % tabs.length];
+      // Extract tab ID dari button onclick attribute
+      const tabId = next.getAttribute('onclick').match(/switchTab\('([^']+)'/)[1];
+      switchTab(tabId, next);
+    }
+    
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = tabs[(currentIdx - 1 + tabs.length) % tabs.length];
+      const tabId = prev.getAttribute('onclick').match(/switchTab\('([^']+)'/)[1];
+      switchTab(tabId, prev);
+    }
+  }
+  
+  // Escape untuk close modal
+  if (e.key === 'Escape') { 
+    closeVideoModal(); 
+    closeOverlay(); 
+  }
 });

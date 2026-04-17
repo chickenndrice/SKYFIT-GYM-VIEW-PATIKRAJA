@@ -551,18 +551,24 @@ footer { padding: 28px 5vw; display: flex; align-items: center; justify-content:
     .schedule-wrap { overflow-x: auto; margin-top: 32px; }
     .schedule-table {
       height: auto;
-      min-width: 560px;           /* enforces columns don't collapse */
+      min-width: 560px;           /* Cukup lebar agar kolom tidak jebol */
+      table-layout: fixed;
     }
     .schedule-table th {
-      font-size: 11px; letter-spacing: 1px;
-      padding: 10px 6px; height: auto;
+      font-size: 11px; 
+      letter-spacing: 1px;
+      padding: 8px 4px; 
+      height: auto;
     }
     .schedule-table .time-col {
-      font-size: 11px; padding: 10px 8px; white-space: nowrap;
+      font-size: 10px; 
+      padding: 8px 6px; 
+      white-space: nowrap;
     }
     .schedule-table td {
-      font-size: 11px; padding: 10px 4px;
-      min-width: 72px;
+      font-size: 10px; 
+      padding: 8px 3px;
+      min-width: 68px;  /* ← Diperkecil dari 72px untuk fit better */
     }
     .schedule-table tbody tr { height: auto; }
     /* Schedule overlay on mobile: show as fixed modal instead of absolute */
