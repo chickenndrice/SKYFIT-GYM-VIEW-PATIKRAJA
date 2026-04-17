@@ -385,6 +385,11 @@
   .footer-copy { font-size: 12px; color: var(--gray); }
   .footer-tagline { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--gray); }
 
+  /* Schedule tap hint — hidden on desktop, shown on mobile */
+  .schedule-tap-hint {
+    display: none;
+  }
+
   /* ── SCHEDULE HOVER OVERLAY ── */
   .schedule-stage {
     position: relative;
@@ -527,10 +532,14 @@
     /* Navbar */
     .nav-links { display: none; }
 
-    /* Fix 1 — Hero: reduce giant gap above headline */
-    #hero { padding: 0 6vw 10vw; justify-content: flex-end; }
+
+    /* Fix 1 — Hero: content starts just below navbar, no giant gap */
+    #hero {
+      padding: calc(64px + 36px) 6vw 10vw;  /* 64px navbar + breathing room */
+      justify-content: flex-start;
+    }
     .hero-headline {
-      padding-top: 30px;          /* much less than 80px on desktop */
+      padding-top: 0;
       font-size: clamp(60px, 18vw, 100px);
       margin-top: 0;
     }
@@ -555,6 +564,16 @@
     .photo-cell.main-cell { grid-column: 1; grid-row: 1; }
     .photo-cell.thumb-cell { grid-row: auto; }
     .swap-hint { opacity: 0.6; }   /* always hint on mobile (no hover) */
+
+    /* Schedule tap hint visible on mobile */
+    .schedule-tap-hint {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      margin: 12px 0 0;
+      line-height: 1.7;
+      letter-spacing: 0.2px;
+    }
 
     /* Fix 3 — Schedule: disable 16:9 + horizontal scroll instead */
     .schedule-stage {
@@ -692,7 +711,7 @@
 
 <!-- NAVBAR -->
 <nav id="navbar">
-  <div class="nav-logo"><span>SKYFIT</span>GYM</div>
+  <a href="#" onclick="window.scrollTo(0,0); location.reload(); return false;" class="nav-logo" style="text-decoration: none;"><span>SKYFIT</span>GYM</a>
   <ul class="nav-links">
     <li><a href="#fasilitas">Fasilitas</a></li>
     <li><a href="#jadwal">Jadwal</a></li>
@@ -835,6 +854,9 @@
 <section id="jadwal">
   <div class="section-tag reveal">Kelas Skyfit</div>
   <h2 class="section-title reveal reveal-delay-1">JADWAL<br><span class="outline">KELAS</span></h2>
+
+  <!-- Mobile tap hint — only visible on small screens -->
+  <p class="schedule-tap-hint reveal">Geser tabel untuk melihat semua hari &nbsp;·&nbsp; Ketuk nama kelas untuk melihat dokumentasi</p>
 
   <div class="schedule-wrap reveal reveal-delay-2">
     <div class="schedule-stage" id="scheduleStage">
