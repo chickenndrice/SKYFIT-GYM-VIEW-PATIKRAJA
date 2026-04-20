@@ -1,43 +1,57 @@
-// Navbar scroll
+/* ══════════════════════════════════════════════
+   SKYFIT GYM — Main JavaScript
+   ══════════════════════════════════════════════ */
+
+
+// ── NAVBAR SCROLL ──
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 60);
 });
 
-// Scroll reveal
+
+// ── SCROLL REVEAL ──
 const observer = new IntersectionObserver((entries) => {
   entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
 }, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+
 document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 document.querySelectorAll('#hero .reveal').forEach((el, i) => {
   setTimeout(() => el.classList.add('visible'), 200 + i * 150);
 });
 
-// Photo swap
+
+// ── PHOTO SWAP (fasilitas grid) ──
+document.querySelectorAll('.photo-cell.thumb-cell').forEach(cell => {
+  cell.addEventListener('click', () => swapWithMain(cell));
+});
+
 function swapWithMain(thumbCell) {
   const mainCell = document.getElementById('mainCell');
-  const mainPH  = mainCell.querySelector('.photo-placeholder').cloneNode(true);
-  const mainOV  = mainCell.querySelector('.photo-overlay').cloneNode(true);
-  const thumbPH = thumbCell.querySelector('.photo-placeholder').cloneNode(true);
-  const thumbOV = thumbCell.querySelector('.photo-overlay').cloneNode(true);
-  mainCell.style.opacity = '0';
+  const mainPH   = mainCell.querySelector('.photo-placeholder').cloneNode(true);
+  const mainOV   = mainCell.querySelector('.photo-overlay').cloneNode(true);
+  const thumbPH  = thumbCell.querySelector('.photo-placeholder').cloneNode(true);
+  const thumbOV  = thumbCell.querySelector('.photo-overlay').cloneNode(true);
+
+  mainCell.style.opacity   = '0';
   mainCell.style.transform = 'scale(0.97)';
   setTimeout(() => {
     mainCell.querySelector('.photo-placeholder').replaceWith(thumbPH);
     mainCell.querySelector('.photo-overlay').replaceWith(thumbOV);
     thumbCell.querySelector('.photo-placeholder').replaceWith(mainPH);
     thumbCell.querySelector('.photo-overlay').replaceWith(mainOV);
-    mainCell.style.opacity = '1';
+    mainCell.style.opacity   = '1';
     mainCell.style.transform = 'scale(1)';
   }, 200);
 }
 
-// Tab switching
+
+// ── TAB SWITCHING (pricelist) ──
 function switchTab(tabId, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
-  btn.focus();  // ← Focus ke button yang aktif
+  btn.focus();
   const panel = document.getElementById('tab-' + tabId);
   panel.classList.add('active');
   panel.querySelectorAll('.reveal').forEach(el => {
@@ -46,18 +60,41 @@ function switchTab(tabId, btn) {
   });
 }
 
-// ── VIDEO INTRO MODAL ──
-// Trainer video config — ganti nilai `src` dengan path video lokal setelah aset tersedia.
-// Contoh: src: 'video/basuki-intro.mp4'
-const trainerVideos = {
-  basuki: {
-    name: 'Coach Basuki',
-    src: 'video/Coach_Basuki_Intro.mp4'
-  },
-  mario: {
-    name: 'Coach Mario',
-    src: 'video/Coach_Mario_Intro.mp4'
+
+// ── KEYBOARD NAVIGATION ──
+document.addEventListener('keydown', (e) => {
+  // Escape closes any open modal / overlay
+  if (e.key === 'Escape') {
+    closeVideoModal();
+    closeOverlay();
   }
+
+  // Arrow keys navigate pricing tabs when focused on a tab button
+  if (e.target.classList.contains('tab-btn')) {
+    const tabs       = Array.from(document.querySelectorAll('.tab-btn'));
+    const currentIdx = tabs.indexOf(e.target);
+
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next  = tabs[(currentIdx + 1) % tabs.length];
+      const tabId = next.getAttribute('onclick').match(/switchTab\('([^']+)'/)[1];
+      switchTab(tabId, next);
+    }
+    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev  = tabs[(currentIdx - 1 + tabs.length) % tabs.length];
+      const tabId = prev.getAttribute('onclick').match(/switchTab\('([^']+)'/)[1];
+      switchTab(tabId, prev);
+    }
+  }
+});
+
+
+// ── VIDEO INTRO MODAL (trainer) ──
+// Add or update src paths here when video files are available.
+const trainerVideos = {
+  basuki: { name: 'Coach Basuki', src: 'video/Coach_Basuki_Intro.mp4' },
+  mario:  { name: 'Coach Mario',  src: 'video/Coach_Mario_Intro.mp4'  },
 };
 
 function openVideoModal(coachId) {
@@ -66,7 +103,7 @@ function openVideoModal(coachId) {
   const title  = document.getElementById('videoModalTitle');
   const body   = document.getElementById('videoModalBody');
 
-  title.textContent = 'Video Perkenalan — ' + config.name;
+  title.textContent = config.name;
 
   if (config.src) {
     body.innerHTML = `<video controls autoplay playsinline src="${config.src}"></video>`;
@@ -88,7 +125,6 @@ function closeVideoModal() {
   const modal = document.getElementById('videoModal');
   modal.classList.remove('open');
   document.body.style.overflow = '';
-  // Stop video playback
   const video = modal.querySelector('video');
   if (video) { video.pause(); video.src = ''; }
 }
@@ -97,24 +133,22 @@ function closeVideoModalOnBackdrop(e) {
   if (e.target === document.getElementById('videoModal')) closeVideoModal();
 }
 
+
 // ── SCHEDULE HOVER OVERLAY ──
-// Data: kelas name → { photos[], video }
-// Photos: array of 3 image paths (leave empty string '' if not yet available)
-// Video: path to class documentation video
+// Add photo paths (3 per class) and optional video src when assets are ready.
 const kelasData = {
-  'Yoga':              { photos: ['','',''], video: '' },
-  'Functional Training': { photos: ['','',''], video: '' },
-  'Fit Elderly':       { photos: ['','',''], video: '' },
-  'Aerobik':           { photos: ['','',''], video: '' },
-  'Fit Kid':           { photos: ['','',''], video: '' },
-  'Body Combat':       { photos: ['','',''], video: '' },
-  'Body Pump':         { photos: ['','',''], video: '' },
-  'Full Body HIIT':    { photos: ['','',''], video: '' },
-  'Fit Boxing':        { photos: ['','',''], video: '' },
-  'Agility':           { photos: ['','',''], video: '' },
+  'Yoga':               { photos: ['', '', ''], video: '' },
+  'Functional Training':{ photos: ['', '', ''], video: '' },
+  'Fit Elderly':        { photos: ['', '', ''], video: '' },
+  'Aerobik':            { photos: ['', '', ''], video: '' },
+  'Fit Kid':            { photos: ['', '', ''], video: '' },
+  'Body Combat':        { photos: ['', '', ''], video: '' },
+  'Body Pump':          { photos: ['', '', ''], video: '' },
+  'Full Body HIIT':     { photos: ['', '', ''], video: '' },
+  'Fit Boxing':         { photos: ['', '', ''], video: '' },
+  'Agility':            { photos: ['', '', ''], video: '' },
 };
 
-// Placeholder gradient backgrounds per slide when no photo
 const placeholderBg = [
   'linear-gradient(135deg, #0f1a00 0%, #1a2a00 50%, #080808 100%)',
   'linear-gradient(135deg, #0a0a0a 0%, #151a00 50%, #0f1500 100%)',
@@ -127,14 +161,14 @@ let sovTotalSlides   = 3;
 let sovActiveKey     = null;
 let hoverTimeout     = null;
 
-const overlay    = document.getElementById('scheduleOverlay');
-const sovSlides  = document.getElementById('sovSlides');
-const sovDots    = document.getElementById('sovDots');
-const sovName    = document.getElementById('sovClassName');
-const sovBadge   = document.getElementById('sovTimeBadge');
-const sovVidBtn  = document.getElementById('sovVideoBtn');
-const sovClose   = document.getElementById('sovClose');
-const stage      = document.getElementById('scheduleStage');
+const overlay   = document.getElementById('scheduleOverlay');
+const sovSlides = document.getElementById('sovSlides');
+const sovDots   = document.getElementById('sovDots');
+const sovName   = document.getElementById('sovClassName');
+const sovBadge  = document.getElementById('sovTimeBadge');
+const sovVidBtn = document.getElementById('sovVideoBtn');
+const sovClose  = document.getElementById('sovClose');
+const stage     = document.getElementById('scheduleStage');
 
 function buildSlides(photos) {
   sovSlides.innerHTML = '';
@@ -149,8 +183,8 @@ function buildSlides(photos) {
     } else {
       slide.className = 'sov-slide-placeholder' + (i === 0 ? ' active' : '');
       slide.style.background = placeholderBg[i] || placeholderBg[0];
-      slide.innerHTML = `<div class="ph-num">${String(i+1).padStart(2,'0')}</div>
-                         <div class="ph-txt">Foto Dokumentasi ${i+1}</div>`;
+      slide.innerHTML = `<div class="ph-num">${String(i + 1).padStart(2, '0')}</div>
+                         <div class="ph-txt">Foto Dokumentasi ${i + 1}</div>`;
     }
     sovSlides.appendChild(slide);
 
@@ -171,8 +205,7 @@ function goToSlide(idx) {
 function startSlideshow() {
   stopSlideshow();
   sovSlideInterval = setInterval(() => {
-    const next = (sovCurrentSlide + 1) % sovTotalSlides;
-    goToSlide(next);
+    goToSlide((sovCurrentSlide + 1) % sovTotalSlides);
   }, 1000);
 }
 
@@ -183,18 +216,13 @@ function stopSlideshow() {
 function openOverlay(className, dayLabel, timeLabel, data) {
   sovActiveKey = className;
   sovCurrentSlide = 0;
-
   sovName.textContent  = className;
   sovBadge.textContent = dayLabel + ' · ' + timeLabel;
-
   buildSlides(data.photos);
-
-  // Wire video button
   sovVidBtn.onclick = () => {
     closeOverlay();
     openKelasVideoModal(className, data.video);
   };
-
   overlay.classList.add('active');
   startSlideshow();
 }
@@ -206,63 +234,55 @@ function closeOverlay() {
   sovActiveKey = null;
 }
 
-// Close on X button
 sovClose.addEventListener('click', (e) => { e.stopPropagation(); closeOverlay(); });
-
-// Close when clicking the dark backdrop (outside sov-inner)
 overlay.addEventListener('click', (e) => {
   if (!e.target.closest('.sov-inner')) closeOverlay();
 });
 
-// Attach hover listeners to non-empty schedule cells
-const dayNames  = ['SEN','SEL','RAB','KAM','JUM','SAB','MIN'];
-const timeRows  = { 0:'08:00', 1:'09:00', 2:'15:30', 3:'16:45', 4:'19:00' };
+// Attach hover + click listeners to schedule cells
+const dayNames = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'];
+const timeRows = { 0: '08:00', 1: '09:00', 2: '15:30', 3: '16:45', 4: '19:00' };
 
 document.querySelectorAll('.schedule-table tbody tr').forEach((row, rowIdx) => {
   const time = timeRows[rowIdx] || '';
   row.querySelectorAll('td:not(.time-col)').forEach((cell, colIdx) => {
     if (cell.classList.contains('empty')) return;
-    // Use innerText so <br> tags become spaces/newlines → collapse to single space
     const rawText = (cell.innerText || cell.textContent).trim().replace(/[\s\n]+/g, ' ');
     if (!rawText) return;
-    const day = dayNames[colIdx] || '';
-
+    const day      = dayNames[colIdx] || '';
     const isMobile = () => window.matchMedia('(max-width: 768px)').matches;
 
     cell.addEventListener('mouseenter', () => {
-      if (isMobile()) return;   // mobile uses click, not hover
-      // 1 second delay before showing overlay
+      if (isMobile()) return;
       hoverTimeout = setTimeout(() => {
         const key  = Object.keys(kelasData).find(k => rawText.toLowerCase().includes(k.toLowerCase())) || rawText;
-        const data = kelasData[key] || { photos: ['','',''], video: '' };
+        const data = kelasData[key] || { photos: ['', '', ''], video: '' };
         openOverlay(key, day, time, data);
-      }, 800);
+      }, 1000);
     });
 
     cell.addEventListener('mouseleave', () => {
       if (isMobile()) return;
-      // Cancel if mouse leaves before 1 second
       if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
     });
 
-    // Click = instant open (both mobile tap and desktop click)
     cell.addEventListener('click', () => {
       if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
       const key  = Object.keys(kelasData).find(k => rawText.toLowerCase().includes(k.toLowerCase())) || rawText;
-      const data = kelasData[key] || { photos: ['','',''], video: '' };
+      const data = kelasData[key] || { photos: ['', '', ''], video: '' };
       openOverlay(key, day, time, data);
     });
   });
 });
 
-// Close overlay when mouse leaves the entire stage area (desktop only)
 stage.addEventListener('mouseleave', (e) => {
   if (window.matchMedia('(max-width: 768px)').matches) return;
   if (hoverTimeout) { clearTimeout(hoverTimeout); hoverTimeout = null; }
   if (!overlay.contains(e.relatedTarget)) closeOverlay();
 });
 
-// Kelas video modal (separate from trainer modal)
+
+// ── KELAS VIDEO MODAL ──
 function openKelasVideoModal(className, videoSrc) {
   const modal = document.getElementById('videoModal');
   const title = document.getElementById('videoModalTitle');
@@ -282,11 +302,12 @@ function openKelasVideoModal(className, videoSrc) {
       </div>`;
   }
 
-    modal.classList.add('open');
+  modal.classList.add('open');
   document.body.style.overflow = 'hidden';
 }
 
-// Pricing tabs scroll fade indicator
+
+// ── PRICING TABS SCROLL FADE ──
 const pricingTabs = document.querySelector('.pricing-tabs');
 if (pricingTabs) {
   const checkTabsScroll = () => {
@@ -296,50 +317,3 @@ if (pricingTabs) {
   pricingTabs.addEventListener('scroll', checkTabsScroll, { passive: true });
   checkTabsScroll();
 }
-
-document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape') { closeVideoModal(); closeOverlay(); }
-});
-
-// PERBAIKAN #3: Add keyboard navigation untuk pricing tabs
-function switchTab(tabId, btn) {
-  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-  btn.classList.add('active');
-  btn.focus();  // ← Focus ke button yang aktif
-  const panel = document.getElementById('tab-' + tabId);
-  panel.classList.add('active');
-  panel.querySelectorAll('.reveal').forEach(el => {
-    el.classList.remove('visible');
-    setTimeout(() => observer.observe(el), 10);
-  });
-}
-
-// ── PERBAIKAN #4: Keyboard navigation antar tabs ──
-document.addEventListener('keydown', (e) => {
-  if (e.target.classList.contains('tab-btn')) {
-    const tabs = Array.from(document.querySelectorAll('.tab-btn'));
-    const currentIdx = tabs.indexOf(e.target);
-    
-    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
-      e.preventDefault();
-      const next = tabs[(currentIdx + 1) % tabs.length];
-      // Extract tab ID dari button onclick attribute
-      const tabId = next.getAttribute('onclick').match(/switchTab\('([^']+)'/)[1];
-      switchTab(tabId, next);
-    }
-    
-    if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
-      e.preventDefault();
-      const prev = tabs[(currentIdx - 1 + tabs.length) % tabs.length];
-      const tabId = prev.getAttribute('onclick').match(/switchTab\('([^']+)'/)[1];
-      switchTab(tabId, prev);
-    }
-  }
-  
-  // Escape untuk close modal
-  if (e.key === 'Escape') { 
-    closeVideoModal(); 
-    closeOverlay(); 
-  }
-});
