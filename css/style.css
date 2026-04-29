@@ -888,11 +888,12 @@ footer { padding: 28px 5vw; display: flex; align-items: center; justify-content:
 
   .photo-grid {
     grid-template-columns: 1fr 1fr;
-    grid-template-rows: 240px 160px 160px;
+    grid-template-rows: auto 160px 160px;
     gap: 8px;
   }
-  .photo-cell.main-cell { grid-column: 1 / -1; grid-row: 1; }
+  .photo-cell.main-cell { grid-column: 1 / -1; grid-row: 1; aspect-ratio: 1 / 1; }
   .photo-cell.thumb-cell { grid-row: auto; }
+  .photo-cell.thumb-cell .photo-overlay h3 { font-size: 14px; }
   .swap-hint { opacity: 0.6; }
 
   .schedule-legend { margin-bottom: 8px; }
@@ -965,7 +966,7 @@ footer { padding: 28px 5vw; display: flex; align-items: center; justify-content:
   .hero-headline { font-size: clamp(52px, 20vw, 80px); }
   .hero-sub { font-size: 13px; margin: 14px 0 24px; }
 
-  .photo-grid { grid-template-rows: 200px 140px 140px; }
+  .photo-grid { grid-template-rows: auto 120px 120px; }
 
   .pricing-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
   .price-card { padding: 14px 12px; }
@@ -986,14 +987,14 @@ footer { padding: 28px 5vw; display: flex; align-items: center; justify-content:
 
   .boxing-profile { padding: 20px; }
 
-  .contact-grid { grid-template-columns: 1fr 1fr; gap: 12px; }
-  .contact-links { justify-content: flex-end; gap: 8px; }
-  .contact-link { padding: 8px 10px; gap: 8px; border-radius: 4px; }
-  .contact-icon { width: 28px; height: 28px; }
-  .contact-icon svg { width: 14px; height: 14px; }
-  .contact-info-label { font-size: 8px; letter-spacing: 1px; margin-bottom: 2px; }
-  .contact-info-value { font-size: 10px; }
-  .contact-title { font-size: 28px; margin-bottom: 16px; }
-  .contact-desc { font-size: 11px; }
-  .address-block .adr-text { font-size: 11px; }
+  .contact-grid { grid-template-columns: 1fr; gap: 24px; }
+  .contact-links { justify-content: flex-start; gap: 10px; }
+  .contact-link { padding: 12px 14px; gap: 12px; border-radius: 6px; max-width: 280px; }
+  .contact-icon { width: 32px; height: 32px; }
+  .contact-icon svg { width: 16px; height: 16px; }
+  .contact-info-label { font-size: 9px; letter-spacing: 1px; margin-bottom: 2px; }
+  .contact-info-value { font-size: 12px; }
+  .contact-title { font-size: 32px; margin-bottom: 16px; }
+  .contact-desc { font-size: 12px; }
+  .address-block .adr-text { font-size: 12px; }
 }
