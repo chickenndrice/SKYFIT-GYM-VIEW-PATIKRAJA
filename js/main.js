@@ -2,7 +2,6 @@
    SKYFIT GYM — Main JavaScript
    ══════════════════════════════════════════════ */
 
-
 // ── NAVBAR SCROLL ──
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
@@ -95,6 +94,7 @@ document.addEventListener('keydown', (e) => {
 const trainerVideos = {
   basuki: { name: 'Coach Basuki', src: 'video/Coach_Basuki_Intro.mp4' },
   mario:  { name: 'Coach Mario',  src: 'video/Coach_Mario_Intro.mp4'  },
+  pepeng: { name: 'Coach Pepeng Panggih', src: 'video/Coach_Pepeng_Intro.mp4' } // Penambahan Coach Pepeng
 };
 
 function openVideoModal(coachId) {
@@ -145,7 +145,8 @@ const kelasData = {
   'Body Combat':        { photos: ['', '', ''], video: '' },
   'Body Pump':          { photos: ['', '', ''], video: '' },
   'Full Body HIIT':     { photos: ['', '', ''], video: '' },
-  'Fit Boxing':         { photos: ['', '', ''], video: '' },
+  'Boxing':             { photos: ['', '', ''], video: '' }, // Perbaikan penamaan dari Fit Boxing
+  'Muay Thai':          { photos: ['', '', ''], video: '' }, // Penambahan Muay Thai
   'Agility':            { photos: ['', '', ''], video: '' },
 };
 
@@ -241,7 +242,7 @@ overlay.addEventListener('click', (e) => {
 
 // Attach hover + click listeners to schedule cells
 const dayNames = ['SEN', 'SEL', 'RAB', 'KAM', 'JUM', 'SAB', 'MIN'];
-const timeRows = { 0: '08:00', 1: '09:00', 2: '15:30', 3: '16:45', 4: '19:00' };
+const timeRows = { 0: '08:00', 1: '09:00', 2: '15:30', 3: '16:45', 4: '18:30' }; // Penyesuaian ke jam 18:30
 
 document.querySelectorAll('.schedule-table tbody tr').forEach((row, rowIdx) => {
   const time = timeRows[rowIdx] || '';

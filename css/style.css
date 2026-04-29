@@ -18,6 +18,14 @@
   --gold-bright: #f5d060;
   --gold-muted:  #8a7040;
   --gold-dark:   #7a6520;
+  /* Combat palette */
+  --combat-red:        #ef4444;
+  --combat-red-border: #dc2626;
+  --combat-red-dim:    rgba(239,68,68,0.15);
+  /* Fit Kid (light blue) */
+  --fit-kid-color:     #38bdf8;
+  /* Fit Elderly (deeper blue) */
+  --fit-elderly-color: #3b82f6;
 }
 
 /* ── RESET & BASE ── */
@@ -181,7 +189,7 @@ section { padding: 100px 5vw; }
    TICKER
    ══════════════════════════════════════════════ */
 .ticker-wrap { background: var(--lime); overflow: hidden; padding: 14px 0; display: flex; }
-.ticker { display: flex; animation: ticker 20s linear infinite; white-space: nowrap; }
+.ticker { display: flex; animation: ticker 24s linear infinite; white-space: nowrap; }
 .ticker-item {
   font-family: 'Barlow Condensed', sans-serif; font-size: 18px; font-weight: 700;
   text-transform: uppercase; color: var(--black); padding: 0 36px; letter-spacing: 2px;
@@ -200,7 +208,6 @@ section { padding: 100px 5vw; }
 }
 .facilities-desc { max-width: 320px; color: var(--muted); line-height: 1.7; font-size: 15px; }
 
-/* Photo grid: main cell left (tall), 4 thumbs right (2x2) */
 .photo-grid {
   display: grid;
   grid-template-columns: 2fr 1fr 1fr;
@@ -246,7 +253,6 @@ section { padding: 100px 5vw; }
   font-family: 'Barlow Condensed', sans-serif; font-size: 20px;
   font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
 }
-/* Swap hint badge on thumbs */
 .swap-hint {
   position: absolute; top: 8px; right: 8px;
   background: rgba(200,230,0,0.15); border: 1px solid rgba(200,230,0,0.4);
@@ -255,7 +261,6 @@ section { padding: 100px 5vw; }
 }
 .photo-cell.thumb-cell:hover .swap-hint { opacity: 1; }
 
-/* Facility extras */
 .facility-extras { margin-top: 44px; padding-top: 28px; border-top: 1px solid var(--border); }
 .facility-extras-label {
   font-size: 10px; letter-spacing: 3px; text-transform: uppercase;
@@ -287,6 +292,24 @@ section { padding: 100px 5vw; }
    CLASS SCHEDULE
    ══════════════════════════════════════════════ */
 #jadwal { background: var(--card); }
+
+/* Schedule legend */
+.schedule-legend {
+  display: flex; flex-wrap: wrap; gap: 16px;
+  margin-bottom: 16px;
+}
+.legend-item {
+  display: flex; align-items: center; gap: 8px;
+  font-size: 12px; color: var(--muted); letter-spacing: 0.5px;
+}
+.legend-dot {
+  width: 10px; height: 10px; border-radius: 2px; flex-shrink: 0;
+}
+.legend-regular   { background: var(--white); }
+.legend-fitkit    { background: var(--fit-kid-color); }
+.legend-fitelderly{ background: var(--fit-elderly-color); }
+.legend-combat    { background: var(--combat-red); }
+
 .schedule-wrap { overflow-x: auto; margin-top: 48px; min-width: 0; }
 .schedule-stage {
   position: relative;
@@ -305,7 +328,6 @@ section { padding: 100px 5vw; }
   font-size: clamp(12px,1.2vw,18px); font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
   padding: 0; height: 9%; text-align: center;
 }
-/* Special "Waktu" header cell */
 .schedule-time-th {
   background: var(--black) !important;
   color: var(--lime) !important;
@@ -328,7 +350,18 @@ section { padding: 100px 5vw; }
 }
 .schedule-table tbody tr { height: calc((100% - 9%) / 5); }
 .schedule-table td.empty { background: rgba(255,255,255,0.02); }
-.schedule-table td.vip-class { color: #ff6b6b; }
+
+/* ── CELL COLOR CLASSES ── */
+.schedule-table td.fit-kid-class     { color: var(--fit-kid-color); }
+.schedule-table td.fit-elderly-class { color: var(--fit-elderly-color); }
+.schedule-table td.muaythai-class    { color: var(--combat-red); }
+.schedule-table td.boxing-class      { color: var(--combat-red); }
+
+/* Hover glow effects per class type */
+.schedule-table td.fit-kid-class:not(.empty):hover     { background: rgba(56,189,248,0.12); }
+.schedule-table td.fit-elderly-class:not(.empty):hover { background: rgba(59,130,246,0.12); }
+.schedule-table td.muaythai-class:not(.empty):hover    { background: rgba(239,68,68,0.12); }
+.schedule-table td.boxing-class:not(.empty):hover      { background: rgba(239,68,68,0.12); }
 
 /* Hoverable cells */
 .schedule-table td:not(.time-col):not(.empty) {
@@ -338,8 +371,12 @@ section { padding: 100px 5vw; }
   background: rgba(200,230,0,0.12);
   color: var(--lime);
 }
+/* Override lime hover with combat/exclusive specific colors */
+.schedule-table td.fit-kid-class:not(.empty):hover,
+.schedule-table td.fit-elderly-class:not(.empty):hover { color: inherit; }
+.schedule-table td.muaythai-class:not(.empty):hover,
+.schedule-table td.boxing-class:not(.empty):hover      { color: inherit; }
 
-/* Schedule rules */
 .schedule-rules {
   margin-top: 32px; padding: 24px 28px;
   background: var(--black); border: 1px solid var(--border); border-radius: 6px;
@@ -355,13 +392,10 @@ section { padding: 100px 5vw; }
 }
 .schedule-rules li::before { content: '◆'; position: absolute; left: 0; color: var(--lime); font-size: 9px; top: 3px; }
 
-/* Contact info block inside schedule rules */
 .rules-contact { margin-top: 20px; padding-top: 16px; border-top: 1px solid var(--border); display: flex; gap: 32px; flex-wrap: wrap; }
-.rules-contact-item {}
 .rules-contact-label { font-size: 10px; letter-spacing: 2px; text-transform: uppercase; color: var(--lime); margin-bottom: 4px; }
 .rules-contact-value { font-size: 14px; font-weight: 600; color: var(--white); }
 
-/* Mobile tap hint */
 .schedule-tap-hint { display: none; }
 
 
@@ -465,7 +499,6 @@ section { padding: 100px 5vw; }
   overflow: hidden; transition: border-color 0.3s, transform 0.3s;
 }
 .trainer-card:hover { border-color: var(--lime); transform: translateY(-6px); }
-/* Wide card variant (single trainer centered) */
 .trainer-card--wide { grid-column: 1 / -1; max-width: 600px; margin: 0 auto; width: 100%; }
 .trainer-photo { aspect-ratio: 1 / 1; width: 100%; background: var(--card2); position: relative; overflow: hidden; }
 .trainer-photo img {
@@ -499,7 +532,6 @@ section { padding: 100px 5vw; }
   text-transform: uppercase; padding: 5px 14px; border-radius: 40px;
 }
 
-/* Video play button on trainer photo */
 .trainer-video-btn {
   position: absolute; bottom: 20px; right: 20px;
   display: flex; align-items: center; gap: 8px;
@@ -530,7 +562,6 @@ section { padding: 100px 5vw; }
 .tab-panel { display: none; }
 .tab-panel.active { display: block; }
 
-/* Promo banner */
 .promo-banner {
   background: linear-gradient(135deg, rgba(200,230,0,0.12), rgba(200,230,0,0.04));
   border: 1px solid rgba(200,230,0,0.3); border-radius: 8px;
@@ -543,7 +574,6 @@ section { padding: 100px 5vw; }
 .promo-banner-price .big { font-family: 'Barlow Condensed', sans-serif; font-size: 40px; font-weight: 800; color: var(--lime); line-height: 1; }
 .promo-banner-price .save { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-/* Pricing grid */
 .pricing-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
 .price-card {
   background: var(--card); border: 1px solid var(--border); border-radius: 6px;
@@ -564,7 +594,6 @@ section { padding: 100px 5vw; }
   font-size: 9px; font-weight: 700; letter-spacing: 1.5px; padding: 4px 10px;
   text-transform: uppercase; clip-path: polygon(0 0, calc(100% - 6px) 0, 100% 100%, 6px 100%);
 }
-/* Inline badge variant (not absolutely positioned) */
 .featured-badge--inline { position: relative; top: auto; right: auto; align-self: flex-start; }
 .price-type { font-size: 11px; letter-spacing: 2.5px; text-transform: uppercase; color: var(--muted); margin-bottom: 12px; }
 .price-amount { font-family: 'Barlow Condensed', sans-serif; font-size: 32px; font-weight: 800; color: var(--white); line-height: 1; }
@@ -577,7 +606,7 @@ section { padding: 100px 5vw; }
 }
 .price-desc { font-size: 12px; color: var(--muted); margin-top: 12px; line-height: 1.6; }
 
-/* VIP price card — black & gold theme */
+/* VIP price card */
 .price-card.vip {
   border-color: var(--gold-border);
   background: linear-gradient(135deg, #1a1500 0%, #0d0d0d 60%, #120f00 100%);
@@ -600,7 +629,6 @@ section { padding: 100px 5vw; }
 .vip-perk-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
 .vip-note { font-size: 11px; color: var(--gold-dark); margin-top: 12px; font-style: italic; }
 
-/* VIP info box */
 .vip-info-box {
   margin-top: 40px; padding: 32px;
   background: linear-gradient(135deg, #1a1500 0%, #0d0d0d 60%, #120f00 100%);
@@ -633,6 +661,12 @@ section { padding: 100px 5vw; }
   color: var(--muted); margin: 32px 0 12px; padding-bottom: 8px;
   border-bottom: 1px solid var(--border);
 }
+/* Combat group title accent */
+.kelas-group-title--combat {
+  color: var(--combat-red);
+  border-bottom-color: rgba(239,68,68,0.3);
+}
+
 .kelas-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 12px; }
 .kelas-card {
   background: var(--card); border: 1px solid var(--border); border-radius: 6px;
@@ -646,6 +680,37 @@ section { padding: 100px 5vw; }
 .kelas-card:hover::before { background: var(--lime); }
 .kelas-card.exclusive { border-color: rgba(200,230,0,0.3); background: rgba(200,230,0,0.04); }
 .kelas-card.exclusive::before { background: var(--lime); }
+
+/* COMBAT CARDS */
+.kelas-card.combat-card {
+  border-color: rgba(239,68,68,0.3);
+  background: linear-gradient(135deg, #1a0000 0%, #0d0a0a 60%, #160404 100%);
+}
+.kelas-card.combat-card::before { background: var(--combat-red); }
+.kelas-card.combat-card:hover { border-color: var(--combat-red); }
+.kelas-card.combat-card--unlimited {
+  border-color: var(--combat-red);
+  background: linear-gradient(135deg, #2a0000 0%, #120808 50%, #1a0000 100%);
+}
+
+.kelas-combat-badge {
+  position: absolute; top: 10px; right: 10px;
+  background: rgba(239,68,68,0.2); border: 1px solid rgba(239,68,68,0.4);
+  color: var(--combat-red); font-size: 8px; font-weight: 700; letter-spacing: 1.5px;
+  text-transform: uppercase; padding: 3px 8px; border-radius: 3px;
+}
+.kelas-combat-badge--special {
+  background: var(--combat-red); color: var(--white); border-color: var(--combat-red);
+}
+.kelas-unlimited-note {
+  font-size: 11px; color: rgba(239,68,68,0.7); margin-top: 8px; font-style: italic; line-height: 1.5;
+}
+.kelas-row--big { margin-top: 8px; }
+.price--big {
+  font-family: 'Barlow Condensed', sans-serif;
+  font-size: 24px !important; font-weight: 800; color: var(--combat-red) !important;
+}
+
 .kelas-name { font-family: 'Barlow Condensed', sans-serif; font-size: 17px; font-weight: 700; text-transform: uppercase; margin-bottom: 12px; letter-spacing: 0.5px; }
 .kelas-exclusive-sub { font-size: 11px; color: var(--muted); margin-bottom: 10px; }
 .kelas-row { display: flex; justify-content: space-between; align-items: center; font-size: 12px; margin-bottom: 5px; }
@@ -680,7 +745,6 @@ section { padding: 100px 5vw; }
 }
 .coach-card-sub { font-size: 12px; color: var(--muted); margin-top: 4px; }
 
-/* Generic note box */
 .note-box {
   margin-top: 20px; padding: 16px 20px;
   border: 1px solid var(--border); border-radius: 6px; background: var(--card);
@@ -798,14 +862,11 @@ footer { padding: 28px 5vw; display: flex; align-items: center; justify-content:
 /* ══════════════════════════════════════════════
    RESPONSIVE — MOBILE
    ══════════════════════════════════════════════ */
-
-/* ── 900px: compact nav ── */
 @media (max-width: 900px) {
   .nav-links a { padding: 0 12px; font-size: 11px; }
   .nav-cta { padding: 8px 14px; font-size: 10px; }
 }
 
-/* ── 768px: tablet / phone ── */
 @media (max-width: 768px) {
   .nav-links { display: none; }
 
@@ -832,6 +893,8 @@ footer { padding: 28px 5vw; display: flex; align-items: center; justify-content:
   .photo-cell.main-cell { grid-column: 1; grid-row: 1; }
   .photo-cell.thumb-cell { grid-row: auto; }
   .swap-hint { opacity: 0.6; }
+
+  .schedule-legend { margin-bottom: 8px; }
 
   .schedule-tap-hint {
     display: block;
@@ -895,7 +958,6 @@ footer { padding: 28px 5vw; display: flex; align-items: center; justify-content:
   footer { flex-direction: column; align-items: flex-start; gap: 10px; }
 }
 
-/* ── 480px: small phones ── */
 @media (max-width: 480px) {
   section { padding: 52px 5vw; }
 
