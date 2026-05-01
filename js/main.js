@@ -46,12 +46,19 @@ function swapWithMain(thumbCell) {
 
 
 // ── TAB SWITCHING (pricelist) ──
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    switchTab(this.getAttribute('data-tab'), this);
+  });
+});
+
 function switchTab(tabId, btn) {
   document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
   document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
   btn.classList.add('active');
   btn.focus();
   const panel = document.getElementById('tab-' + tabId);
+  if (!panel) return;
   panel.classList.add('active');
   panel.querySelectorAll('.reveal').forEach(el => {
     el.classList.remove('visible');
@@ -76,14 +83,12 @@ document.addEventListener('keydown', (e) => {
     if (e.key === 'ArrowRight' || e.key === 'ArrowDown') {
       e.preventDefault();
       const next  = tabs[(currentIdx + 1) % tabs.length];
-      const tabId = next.getAttribute('onclick').match(/switchTab\('([^']+)'/)[1];
-      switchTab(tabId, next);
+      switchTab(next.getAttribute('data-tab'), next);
     }
     if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
       e.preventDefault();
       const prev  = tabs[(currentIdx - 1 + tabs.length) % tabs.length];
-      const tabId = prev.getAttribute('onclick').match(/switchTab\('([^']+)'/)[1];
-      switchTab(tabId, prev);
+      switchTab(prev.getAttribute('data-tab'), prev);
     }
   }
 });
@@ -97,6 +102,12 @@ const trainerVideos = {
   pepeng: { name: 'Coach Pepeng Panggih', src: 'video/Coach_Pepeng_Intro.mp4' } // Penambahan Coach Pepeng
 };
 
+document.querySelectorAll('.trainer-video-btn').forEach(btn => {
+  btn.addEventListener('click', function() {
+    openVideoModal(this.getAttribute('data-coach'));
+  });
+});
+
 function openVideoModal(coachId) {
   const config = trainerVideos[coachId];
   const modal  = document.getElementById('videoModal');
@@ -106,7 +117,7 @@ function openVideoModal(coachId) {
   title.textContent = config.name;
 
   if (config.src) {
-    body.innerHTML = `<video controls autoplay playsinline src="${config.src}"></video>`;
+    body.innerHTML = `<video controls autoplay playsinline src="${config.src}" onerror="this.onerror=null; this.parentNode.innerHTML='<div class=\\'video-modal-placeholder\\'><p style=\\'font-size:16px;color:var(--white);margin-bottom:12px;\\'>Video belum tersedia</p><p>Video untuk <strong>${config.name}</strong> tidak ditemukan di path: <code>${config.src}</code>.</p></div>';"></video>`;
   } else {
     body.innerHTML = `
       <div class="video-modal-placeholder">
@@ -132,6 +143,9 @@ function closeVideoModal() {
 function closeVideoModalOnBackdrop(e) {
   if (e.target === document.getElementById('videoModal')) closeVideoModal();
 }
+
+document.getElementById('closeVideoModalBtn')?.addEventListener('click', closeVideoModal);
+document.getElementById('videoModal')?.addEventListener('click', closeVideoModalOnBackdrop);
 
 
 // ── SCHEDULE HOVER OVERLAY ──

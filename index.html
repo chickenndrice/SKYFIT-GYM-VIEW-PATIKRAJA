@@ -3,7 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Skyfit Gym Patikraja — Fitness · Cardio · Gym Class</title>
+  <meta name="description" content="SkyFit Gym Patikraja — Gym modern dengan fasilitas lengkap, trainer berpengalaman, dan berbagai kelas fitness. Buka setiap hari 06:00-22:00.">
+  <meta name="theme-color" content="#C8E600">
+  <meta property="og:title" content="SkyFit Gym Patikraja — Forge Your Best Self">
+  <meta property="og:description" content="Gym modern di Patikraja dengan fasilitas lengkap, trainer berpengalaman, dan lingkungan yang mendukung.">
+  <meta property="og:type" content="website">
+  <title>SkyFit Gym Patikraja — Forge Your Best Self</title>
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💪</text></svg>">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700;800&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/style.css">
 </head>
@@ -27,8 +33,16 @@
   <div class="hero-bg"></div>
   <div class="hero-hex"></div>
   <div class="hero-glow"></div>
+  <div class="hero-particles">
+    <div class="hero-particle"></div>
+    <div class="hero-particle"></div>
+    <div class="hero-particle"></div>
+    <div class="hero-particle"></div>
+    <div class="hero-particle"></div>
+    <div class="hero-particle"></div>
+  </div>
   <h1 class="hero-headline reveal reveal-delay-1">
-    <span class="outline">FORGE</span><br>YOUR<br><span class="accent">BEST</span><br><span class="outline">SELF</span>
+    <span class="outline" data-text="FORGE">FORGE</span><br>YOUR<br><span class="accent">BEST</span><br><span class="outline" data-text="SELF">SELF</span>
   </h1>
   <p class="hero-sub reveal reveal-delay-2">Gym modern di Patikraja dengan fasilitas lengkap, trainer berpengalaman, dan lingkungan yang mendukung setiap langkah perjalanan fitnessmu.</p>
   <div class="hero-actions reveal reveal-delay-3">
@@ -261,7 +275,7 @@
       <div class="trainer-photo">
         <div class="trainer-photo-placeholder"><div class="trainer-initial">B</div></div>
         <div class="trainer-badge">Coach</div>
-        <button class="trainer-video-btn" onclick="openVideoModal('basuki')">
+        <button class="trainer-video-btn" data-coach="basuki">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           Kenali Trainer Mu!
         </button>
@@ -289,7 +303,7 @@
       <div class="trainer-photo">
         <div class="trainer-photo-placeholder"><div class="trainer-initial">M</div></div>
         <div class="trainer-badge">Coach</div>
-        <button class="trainer-video-btn" onclick="openVideoModal('mario')">
+        <button class="trainer-video-btn" data-coach="mario">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           Kenali Trainer Mu!
         </button>
@@ -317,7 +331,7 @@
       <div class="trainer-photo">
         <div class="trainer-photo-placeholder"><div class="trainer-initial">P</div></div>
         <div class="trainer-badge">Boxing Coach</div>
-        <button class="trainer-video-btn" onclick="openVideoModal('pepeng')">
+        <button class="trainer-video-btn" data-coach="pepeng">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
           Kenali Trainer Mu!
         </button>
@@ -349,11 +363,11 @@
   <div class="section-tag reveal">Harga Member</div>
   <h2 class="section-title reveal reveal-delay-1">PRICE<br><span class="outline">LIST</span></h2>
   <div class="pricing-tabs">
-    <button class="tab-btn active" onclick="switchTab('umum',this)">Member Umum</button>
-    <button class="tab-btn" onclick="switchTab('pelajar',this)">Pelajar / Mahasiswa</button>
-    <button class="tab-btn" onclick="switchTab('pt',this)">Personal Trainer</button>
-    <button class="tab-btn" onclick="switchTab('kelas',this)">Kelas Skyfit</button>
-    <button class="tab-btn" onclick="switchTab('boxing',this)">Privat Boxing</button>
+    <button class="tab-btn active" data-tab="umum">Member Umum</button>
+    <button class="tab-btn" data-tab="pelajar">Pelajar / Mahasiswa</button>
+    <button class="tab-btn" data-tab="pt">Personal Trainer</button>
+    <button class="tab-btn" data-tab="kelas">Kelas Skyfit</button>
+    <button class="tab-btn" data-tab="boxing">Privat Boxing</button>
   </div>
 
   <!-- TAB: UMUM -->
@@ -680,11 +694,11 @@
 </section>
 
 <!-- VIDEO MODAL -->
-<div class="video-modal-backdrop" id="videoModal" onclick="closeVideoModalOnBackdrop(event)">
+<div class="video-modal-backdrop" id="videoModal">
   <div class="video-modal">
     <div class="video-modal-header">
       <div class="video-modal-title" id="videoModalTitle">Video Perkenalan</div>
-      <button class="video-modal-close" onclick="closeVideoModal()">✕</button>
+      <button class="video-modal-close" id="closeVideoModalBtn">✕</button>
     </div>
     <div id="videoModalBody"></div>
   </div>
